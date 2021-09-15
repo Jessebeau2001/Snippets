@@ -1,1 +1,7 @@
+title: Jesse's loot list.
+description: Just testing some stuff with DIM preferred rolls.
+
+
+// Peacebond (MKB,PVE)
+//notes: Jesse Test Item
 dimwishlist:item=829330711&perks=202670084,3142289711,2846385770,4082225868
