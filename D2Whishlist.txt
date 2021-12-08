@@ -2,6 +2,10 @@ title: Jesse's loot list.
 description: Just testing some stuff with DIM preferred rolls.
 
 
-// Peacebond (MKB,PVE)
+// Peacebond (MKB, PVE)
 //notes: Some cool Peacebond perk combo's. Recommended MW - Range/Handling|tags:mkb,pvp
 dimwishlist:item=829330711&perks=202670084,3142289711,2846385770,4082225868
+
+// 1000 Yard Stare (MKB, PVE)
+//notes:Sniper with Triple tap and the new Tricon perk
+dimwishlist:item=4164201232&perks=1840239774,1087426260,3400784728,2610012052#notes:extra dim text
