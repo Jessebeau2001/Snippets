@@ -7,6 +7,8 @@
 #include <string>
 #include <map>
 #include <sstream>
+#include <vector>
+#include <algorithm>
 
 #include "BruhSort.h"
 #include "StreamHandler.h"
@@ -55,6 +57,33 @@ void printMap(map<A, B> tMap)                                       // I find th
         cout << item.first << " | " << item.second << std::endl;
     }
 }
+template <typename A, typename B>
+std::vector<std::pair<A, B>> mapToVec(map<A, B> mp)
+{
+    std::vector<std::pair<A, B>> vec;
+    for (auto & item : mp) {
+        vec.push_back(std::pair<A, B>(item.first, item.second));
+    }
+    return vec;
+}
+
+void sortCharMap(std::map<char, unsigned int> & mp)
+{
+    std::map<char, unsigned int> sorted;
+    auto vec = mapToVec(mp);
+
+    std::sort(std::begin(vec), std::end(vec),
+    [](const std::pair<char, unsigned int> & pairA, const std::pair<char, unsigned int> & pairB) {
+        return pairA.second > pairB.second;
+    });
+
+    for (auto i : vec) {
+        cout << i.first << "| " << i.second << std::endl;
+        sorted.insert(i);
+    }
+
+    // printMap(sorted);
+}
 
 int main()
 {
@@ -70,7 +99,11 @@ int main()
     string str = buf.str();
     
     // cout << str;
-    printMap(getCharacterMap(str));
+    auto mp = getCharacterMap(str);
+
+    sortCharMap(mp);
+    // mapToVec(mp);
+    // printMap(mp);`
     
     return 0;
 }
