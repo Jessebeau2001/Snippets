@@ -9,6 +9,7 @@ namespace utils
         }
     }
 
+    // Wanted to rewrite this at some point but it works so.
     map<char, unsigned int> getCharacterMap(string & str, bool setLower)
     {
         if (setLower) strToLower(str);

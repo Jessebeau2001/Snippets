@@ -1,5 +1,8 @@
 /*
-    Jesse inefficient as fuck text countint and sorting programme for cpp :)
+    Name        | Jesse Visscher
+    Stdnt. Nr.  | 477437
+
+    cpp foundations assignment 1: letter counting
 */
 
 #include <iostream>
