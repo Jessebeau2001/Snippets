@@ -12,7 +12,7 @@ namespace streamhandler
         *path = newPath;
     }
 
-    void appendValidStream(std::ifstream &file)
+    void appendValidStream(std::ifstream & file)
     {
         string path{};
         cout << "Please enter a valid file path: ";
@@ -34,7 +34,7 @@ namespace streamhandler
         return false;
     }
 
-    bool isStream(std::ifstream &file, string path)
+    bool isStream(std::ifstream & file, string path)
     {
         file = std::ifstream{path};
         return file.is_open();

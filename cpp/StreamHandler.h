@@ -12,10 +12,10 @@ using std::cin;
 namespace streamhandler
 {
     void appendValidPath(string * path);
-    void appendValidStream(std::ifstream &file);
+    void appendValidStream(std::ifstream & file);
 
     bool isTextPath(string path);
-    bool isStream(std::ifstream &file, string path);
+    bool isStream(std::ifstream & file, string path);
 }
 
 #endif
