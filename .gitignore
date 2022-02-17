@@ -1,4 +1,3 @@
-
-.vscode/*
-
+# Compiler excludes (vs code) 
+**/.vscode/**
 *.exe
