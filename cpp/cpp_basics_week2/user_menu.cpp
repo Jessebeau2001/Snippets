@@ -28,23 +28,34 @@ namespace menu
             default:
                 break;
             case COUNT:
-                cout << "There are " << group.numTransactions() << " transactions in this group.";
+                cout << "There are " << group.numTransactions() << " transactions in this group.\n";
                 break;
             case MIN_SIZE:
-                cout << "System needs a minimum size of " << group.maxPoolSize() << " bytes.";
+                cout << "System needs a minimum size of " << group.maxPoolSize() << " bytes.\n";
                 break;
             case VIEW_ALL:
                 cout << "Available transactions:\n";
-                group.printContent();
+                group.printIncreaseFull();
                 break;
             case FIND_ID:
-                
+                group.printIncreaseSelect();
+                break;
+            case SUM_CLAIMS:
+                group.printSumCapped();
+                break;
+            case LIST_IDENTIFIERS:
+                group.printIdentifiers();
+                break;
+            case VALIDATE:
+                std::cout << "List is " << (group.isValid() ? "valid" : "invalid") << ".\n";
+                break;
+            case MAX:
+                break;
+            case POOL_SIZE:
                 break;
             case QUIT:
                 return true;
         }
-
-        cout << "\n";
         return false;
     }
 

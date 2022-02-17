@@ -26,5 +26,6 @@ int main()
     TransactionGroup group = TransactionGroup(stream);
     menu::enterMenuLoop(group);
 
+    cout << "Goodbye!";
     return 0;
 }
