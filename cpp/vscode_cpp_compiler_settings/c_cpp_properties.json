@@ -3,7 +3,7 @@
         {
             "name": "Win32",
             "includePath": [
-                "${workspaceFolder}/**"
+                "${workspaceFolder}/**"             // This one is important for header files
             ],
             "defines": [
                 "_DEBUG",
