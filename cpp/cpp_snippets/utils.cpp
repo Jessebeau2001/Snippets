@@ -4,8 +4,9 @@
 
 namespace utils
 {
-    static void appendValidStream(std::ifstream & stream)
+    std::ifstream appendValidStream()
     {
+        std::ifstream stream{};
         std::string path{};
         std::cout << "Please enter a valid file path: ";
         std::cin >> path;
@@ -15,5 +16,7 @@ namespace utils
             std::cout << "file '"<< path << "' could not be found, please try again: ";
             std::cin >> path;
         }
+
+        return stream;
     }
 }

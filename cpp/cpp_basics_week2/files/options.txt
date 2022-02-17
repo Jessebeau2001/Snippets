@@ -1,0 +1,11 @@
+Select option:
+1. Count of transactions
+2. Minimum resource size
+3. All transactions
+4. Transactions of id
+5. Sum of claims until n
+6. List identifiers
+7. Validate
+8. Maxima
+9. Check pool size
+10.Quit

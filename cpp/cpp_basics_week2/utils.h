@@ -7,6 +7,8 @@
 namespace utils
 {
     std::ifstream appendValidStream();
+    int parseInt();
+    void quit();
 }
 
 #endif

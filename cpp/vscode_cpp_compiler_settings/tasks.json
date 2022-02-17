@@ -7,7 +7,9 @@
             "args": [
                 "-fdiagnostics-color=always",
                 "-g",
-                "${file}",
+                // "${file}",
+                "${fileDirname}\\*.h",      // Include all header files
+                "${fileDirname}\\*.cpp",    // Include all source files
                 "-o",
                 "${fileDirname}\\${fileBasenameNoExtension}.exe"
             ],
