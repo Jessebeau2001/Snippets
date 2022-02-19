@@ -24,7 +24,9 @@ int main()
 {
     std::ifstream stream = std::ifstream("./files/trans.txt");
     TransactionGroup group = TransactionGroup(stream);
-    menu::enterMenuLoop(group);
+    // menu::enterMenuLoop(group);
+
+    group.printPoolCustom();
 
     cout << "Goodbye!";
     return 0;

@@ -13,8 +13,6 @@ using std::string;
 
 namespace menu
 {
-    const string test = "";
-
     void printAllOptions()      // It's not ideal that there is a new stream being created every time the list is printed...
     {
         ifstream f{"./files/options.txt"};
@@ -50,8 +48,10 @@ namespace menu
                 std::cout << "List is " << (group.isValid() ? "valid" : "invalid") << ".\n";
                 break;
             case MAX:
+                group.printPoolInfo();
                 break;
             case POOL_SIZE:
+                group.printPoolCustom();
                 break;
             case QUIT:
                 return true;
