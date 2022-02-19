@@ -39,7 +39,7 @@ namespace transactions
         string toString()
         {
             ostringstream oss;
-            oss << index << " \t| ID: " << id << "\t | Value: " << value;
+            oss << index + 1 << " \t| ID: " << id << "\t | Value: " << value;
             return oss.str();
         }
     };
@@ -92,7 +92,7 @@ namespace transactions
             return maxSize;
         }
 
-        // add index checks (maybe with iterators)
+        // add index checks (maybe with iterators?)
         int returnedByTerminate(string id, int index)
         {
             int inUse{};
@@ -195,9 +195,9 @@ namespace transactions
         }
 
         void printPoolInfo();
-        void printPoolCustom();
+        void editPool();
 
-        bool shrinkUntilFit(PoolStat * stat_container);
+        bool shrinkUntilFit(int size_max);
         vector<Transaction *> getGarbadge();
     };
 

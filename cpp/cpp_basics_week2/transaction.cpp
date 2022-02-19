@@ -19,7 +19,7 @@ namespace transactions
         stat.print(PoolStat::FULL);
     }
 
-    void TransactionGroup::printPoolCustom()
+    void TransactionGroup::editPool()
     {
         auto size = askSize();
         PoolStat stat{*this, size};
@@ -27,11 +27,23 @@ namespace transactions
         if (stat.ok) {
             stat.print(PoolStat::FULL);
         } else {
-            stat.print(PoolStat::LIMITED);
+            stat.print();
+            bool fits = shrinkUntilFit(size);
+            if (fits) {
+                stat = PoolStat{*this, size};   // Update the stats in order to print correct info, it might be smart to print thew new stats within the shrink function so we dont have to update PoolState twice (here & in shrink).
+                stat.print(PoolStat::FULL);     // But for now I want to keep it in there because this function should handle printing of all information, not the shrink function.
+            } else {
+                cout << "Group will never fit within specified range";
+            }
         }
     }
 
-    bool TransactionGroup::shrinkUntilFit(PoolStat * stat_container)    // Set this back to int for things to work again
+    /**
+     * Shrinks the group until its fits within the specified size.
+     * @param size_max Desired size for group to fit in
+     * @returns Bool whether it's possible to fit withing given size
+     */
+    bool TransactionGroup::shrinkUntilFit(int size_max)
     {
         PoolStat stat{*this, size_max};
         if(stat.ok) return true;
@@ -47,6 +59,11 @@ namespace transactions
         return stat.ok;
     } 
 
+    /**
+     * Finds and sorts Transactions considered valid for deletion
+     * based on their value.
+     * @return Vector with pointers to deletable Transactions.
+     */
     vector<Transaction *> TransactionGroup::getGarbadge()
     {
         vector<Transaction *> marked;
@@ -66,13 +83,3 @@ namespace transactions
         return marked; 
     }
 }
-
-/*
-    Cannot remove first transaction
-    Cannot remove negative transaction
-    ------>
-    mark second positive appearance
-    put in list and sort
-    remove biggest
-    if still larger than max, do again
-*/

@@ -12,6 +12,7 @@ namespace menu
     void printAllOptions();
     bool runMenuAction(TransactionGroup & group, Options option);
     void enterMenuLoop(TransactionGroup & group);
-}
+    void editCopy(TransactionGroup & group);                        // Don't want to have this function within the struct because
+}                                                                   // then the struct might copy itself indefinitely with incorrect use.
 
 #endif

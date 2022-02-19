@@ -22,12 +22,16 @@ using transactions::TransactionGroup;
 
 int main()
 {
-    std::ifstream stream = std::ifstream("./files/trans.txt");
+    auto stream = utils::appendValidStream();
+    // std::ifstream stream = std::ifstream("./files/trans.txt");
     TransactionGroup group = TransactionGroup(stream);
-    // menu::enterMenuLoop(group);
-
-    group.printPoolCustom();
+    menu::enterMenuLoop(group);
 
     cout << "Goodbye!";
     return 0;
 }
+
+// In option 9:
+// the thing need 280 bytes, then it fits perfectly BUT
+// When giving it 280 it fails, in needs 281
+// Same goes for 215 and 216

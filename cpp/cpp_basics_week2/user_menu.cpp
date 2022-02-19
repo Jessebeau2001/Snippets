@@ -51,7 +51,7 @@ namespace menu
                 group.printPoolInfo();
                 break;
             case POOL_SIZE:
-                group.printPoolCustom();
+                editCopy(group);
                 break;
             case QUIT:
                 return true;
@@ -67,5 +67,11 @@ namespace menu
             cout << "\n> ";
             exit = runMenuAction(group, (Options) utils::parseInt());
         }
+    }
+
+    void editCopy(TransactionGroup & group)
+    {
+        auto copy = group;
+        copy.editPool();
     }
 }
