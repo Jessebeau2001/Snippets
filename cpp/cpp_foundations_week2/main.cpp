@@ -1,5 +1,6 @@
 /*
     Week 2 assignment C++ foundations
+    By Jesse Visscher, 477437, ETI1v.B
 
     about std::endl vvv
     https://gcc.gnu.org/onlinedocs/libstdc++/manual/streambufs.html#io.streambuf.buffering
