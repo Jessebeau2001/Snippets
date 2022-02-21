@@ -13,6 +13,7 @@ namespace utils
         std::cout << "Please enter a valid file path: ";
         std::getline(std::cin, path);
         if (path == "") quit();                            // I don't like this line being here twice, also don't want to split this function :()
+        stream = std::ifstream{path};
 
         while (stream.is_open() == false) {
             stream = std::ifstream{path};
