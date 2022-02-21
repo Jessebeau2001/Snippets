@@ -74,130 +74,23 @@ namespace transactions
             t_list.shrink_to_fit();
         }
 
-        int numTransactions()
-        {
-            return t_list.size();
-        }
+        int numTransactions();
+        int maxPoolSize();
+        int returnedByTerminate(string id, int index);
+        int sumPoolSize();
+        int askSize();
 
-        int maxPoolSize()
-        {
-            int size{};
-            int maxSize{};
-
-            for (auto & t : t_list) {
-                handleClaim(t, size);
-                if (size > maxSize) maxSize = size;
-            }
-
-            return maxSize;
-        }
-
-        // add index checks (maybe with iterators?)
-        int returnedByTerminate(string id, int index)
-        {
-            int inUse{};
-            for (auto & t : t_list) {
-                if (t.id == id) inUse += t.value;
-            }
-            return inUse;
-        }
-
-        int sumPoolSize()
-        {
-            int size{};
-            for (auto & t : t_list) {
-                handleClaim(t, size);
-            }
-            return size;
-        }
-        
-        bool isValid()
-        {
-            for (auto & key : keys) {
-                int sum{};
-                for (auto & item : t_list) {
-                    if (item.id == key) handleClaim(item, sum);
-                }
-                if (sum < 0) return false;
-            }
-            return true;
-        }
-
-        void handleClaim(Transaction t, int & size)
-        {
-            if(t.active == false) return;
-            if (t.value == 0) {
-                size -= returnedByTerminate(t.id, 1);
-            }
-            size += t.value;
-        }
-
-        void printIncreaseFull()
-        {
-            int sum{};
-            for (auto & item : t_list) {
-                handleClaim(item, sum);
-                cout << item.toString() << " \ttotal: " << sum << "\n";
-            }
-        }
-
-        void printIncreaseSelect()
-        {
-            int sum{};
-            string id{};
-            bool found = false;
-
-            cout << "Enter ID: ";
-            cin >> id;
-            
-            for (auto & item : t_list) {
-                if (item.id == id) {
-                    handleClaim(item, sum);
-                    cout << item.toString() << " \ttotal: " << sum << "\n";
-                    found = true;
-                }
-            }
-
-            if (!found) cout << "id '" << id << "' was not found" << "\n";
-        }
-
-        void printSumCapped()
-        {
-            cout << "Until when: ";
-            int cap = parseInt();
-
-            if (cap > numTransactions()) {
-                cout << cap << " is greater than amount of transactions in this group (" << numTransactions() << "), defaulting to max.\n";
-                cap = numTransactions();
-            }
-            
-            int size{};
-
-            for (int i = 0; i < cap; i++) {
-                handleClaim(t_list[i], size);
-            }
-
-            cout << "Sum of specified claims is " << size << " bytes.\n";
-        }
-
-        int askSize()
-        {
-            cout << "Enter pool size: ";
-            return parseInt();
-        }
-        
-        void printIdentifiers()
-        {
-            cout << "Unique identifiers for this group are:\n";
-            for (auto & key : keys) {
-                cout << " - " << key << "\n";
-            }
-        }
-
-        void printPoolInfo();
-        void editPool();
-
+        bool isValid();
         bool shrinkUntilFit(int size_max);
+
+        void handleClaim(Transaction t, int & size);
+        void printIncreaseFull();
+        void printIncreaseSelect();
+        void printSumCapped();
+        void printPoolInfo();
+        void printIdentifiers();
+        void editPool();
+        
         vector<Transaction *> getGarbadge();
     };
 
