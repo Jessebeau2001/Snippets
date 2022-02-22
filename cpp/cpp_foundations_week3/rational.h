@@ -3,6 +3,7 @@
 
 #include <string>
 #include <iostream>     // For debugging, can be removed later
+#include <numeric>      // For lcm
 
 using std::string;
 
@@ -31,11 +32,10 @@ class Rational
 
         Rational operator+ (const Rational & b)
         {
-            // int t = std::lcm(this->den_, b.den_);
-
-            int p = this->num_ + b.num_;
-            int q = this->den_ + b.den_;
-            return Rational{p, q};
+            int m = std::lcm(this->den_, b.den_);
+            int a_num = this->num_ * (m / this->den_);
+            int b_num = b.num_ * (m / b.den_);
+            return Rational{a_num + b_num, m};
         }
 
         Rational operator- (const Rational & b)

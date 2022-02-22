@@ -23,7 +23,6 @@
 #include <iostream>
 #include <string>
 #include "rational.h"
-#include <numeric>
 
 using std::cout;
 using std::string;
@@ -76,15 +75,15 @@ void unit_test_constructor()
     cout << "(385/33) should become (35/3) | " << r.to_string() << endl;
     r = Rational(22, -4);
     cout << "(22/-4) should become (-11/2) | " << r.to_string() << endl;
-    
+
+    cout << "\n===========( Math Operations )===========" << endl;
+    cout << "(7/5) == (7/5)               | " << b_str(Rational{7, 5} == Rational{7, 5}) << endl;
+    cout << "(3/4) + (67/-3) == (-259/12) | " << b_str(Rational{3, 4} + Rational{67, -3} == Rational{-259, 12}) << endl;
+    cout << "(7/5) * (45/9) == (7/1)      | " << b_str(Rational{7, 5} * Rational{45/9} == Rational{7, 1}) << endl;
 }
 
 int main()
 {
-    cout << "(7/5) * (45/9) == (7/1) | " << b_str(Rational{7, 5} * Rational{45/9} == Rational{7, 1}) << endl;
-    cout << "(7/5) == (7/5)          | " << b_str(Rational{7, 5} == Rational{7, 5}) << endl;
-    cout << "(6/5) == (7/5)          | " << b_str(Rational{6, 5} == Rational{7, 5}) << endl;
-
-    // unit_test_constructor();
+    unit_test_constructor();
     return 0;
 }
