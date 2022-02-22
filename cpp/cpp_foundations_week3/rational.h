@@ -2,6 +2,7 @@
 #define RATIONAL_H
 
 #include <string>
+#include <iostream>     // For debugging, can be removed later
 
 using std::string;
 
@@ -28,9 +29,46 @@ class Rational
         bool is_inf();
         bool is_nan();
 
+        Rational operator+ (const Rational & b)
+        {
+            // int t = std::lcm(this->den_, b.den_);
+
+            int p = this->num_ + b.num_;
+            int q = this->den_ + b.den_;
+            return Rational{p, q};
+        }
+
+        Rational operator- (const Rational & b)
+        {
+            return Rational{};
+        }
+        
+        Rational operator/ (const Rational & b)
+        {
+            return Rational{};
+        }
+
+        Rational operator* (const Rational & b)
+        {
+            int p = this->num_ * b.num_;
+            int q = this->den_ * b.den_;
+            return Rational{p, q};
+        }
+        
+        bool operator == (const Rational & b)
+        {
+            if((this->num_ == b.num_) && (this->den_ == b.den_)) return true;
+            return false;
+        }
+
     private:
+        void compile();
+        void flip_sign();
+        void try_simplify();
         int num_, den_;
         double decimal_;
 };
+
+// should overload the following: add, subtract, multiply & divide
 
 #endif

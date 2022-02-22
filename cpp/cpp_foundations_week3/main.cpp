@@ -23,7 +23,7 @@
 #include <iostream>
 #include <string>
 #include "rational.h"
-#include <bits/stdc++.h>
+#include <numeric>
 
 using std::cout;
 using std::string;
@@ -57,18 +57,34 @@ void unit_test_constructor()
 
     cout << "\n===========( NaN & Inf Checks )===========" << endl;
     Rational r{0, 30};
+    cout << "0 divided by x:"                    << endl;
     cout << "Inf (0/30) | " << b_str(r.is_inf()) << endl;
     cout << "NaN (0/30) | " << b_str(r.is_nan()) << endl;
     r = Rational{30, 0};
+    cout << "Division by 0:"                     << endl;
     cout << "Inf (30/0) | " << b_str(r.is_inf()) << endl;
     cout << "NaN (30/0) | " << b_str(r.is_nan()) << endl;
     r = Rational{0, 0};
+    cout << "0 divided by 0:"                    << endl;
     cout << "Inf (0/0)  | " << b_str(r.is_inf()) << endl;
     cout << "NaN (0/0)  | " << b_str(r.is_nan()) << endl;
+
+    cout << "\n===========( Simplification )===========" << endl;
+    r = Rational(45, 5);
+    cout << "(45/5) should become (9/1)    | " << r.to_string() << endl;
+    r = Rational(385, 33);
+    cout << "(385/33) should become (35/3) | " << r.to_string() << endl;
+    r = Rational(22, -4);
+    cout << "(22/-4) should become (-11/2) | " << r.to_string() << endl;
+    
 }
 
 int main()
 {
-    unit_test_constructor();
+    cout << "(7/5) * (45/9) == (7/1) | " << b_str(Rational{7, 5} * Rational{45/9} == Rational{7, 1}) << endl;
+    cout << "(7/5) == (7/5)          | " << b_str(Rational{7, 5} == Rational{7, 5}) << endl;
+    cout << "(6/5) == (7/5)          | " << b_str(Rational{6, 5} == Rational{7, 5}) << endl;
+
+    // unit_test_constructor();
     return 0;
 }

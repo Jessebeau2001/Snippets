@@ -2,8 +2,8 @@
 
 #include <iostream>
 #include <sstream>
-#include <bits/stdc++.h>
-#include <algorithm>
+#include <cmath>        // for inf and NaN checks
+#include <algorithm>        
 
 using std::cout;
 using std::endl;
@@ -17,15 +17,9 @@ using std::stringstream;
  */
 Rational::Rational(int num, int den)
 {
-    if (den > 0) {
-        num_ = num;
-        den_ = den;
-    } else {
-        num_ = num * -1;    // Maybe this should be a flip function
-        den_ = den * -1;
-    }
-
-    decimal_ = (double) num_ / den_;
+    num_ = num;
+    den_ = den;
+    compile();
 }
 
 /**
@@ -59,9 +53,13 @@ Rational::Rational(string expr)
     *this = Rational(p, q);
 }
 
+/**
+ * Calculates greatest common divider using std::__gcd() from <algoritm>. Always returns absolute value of gcd.
+ * @return Abs of gcd.
+ */
 int Rational::get_gcd()
 {
-    return std::__gcd(num_, den_);
+    return std::abs(std::__gcd(num_, den_));
 }
 
 /**
@@ -109,4 +107,35 @@ bool Rational::is_inf()
 bool Rational::is_nan()
 {
     return std::isnan(decimal_);
+}
+
+/**
+ * Compiles all internal values based on existing numerator and demoninator.
+ * This should always be called when either value has been subject to change.
+ */
+void Rational::compile()
+{
+    if (den_ < 0) flip_sign();
+    try_simplify();
+    decimal_ = (double) num_ / den_;
+}
+
+/**
+ * Flips the sign of both the numerator and denominator.
+ */
+void Rational::flip_sign()
+{
+    num_ *= -1;
+    den_ *= -1;
+}
+
+/**
+ * Simplifies both the numerator and denominator when possible.
+ */
+void Rational::try_simplify()
+{
+    auto gcd = get_gcd();
+    if (gcd == 0) return;
+    num_ /= gcd;
+    den_ /= gcd;
 }
