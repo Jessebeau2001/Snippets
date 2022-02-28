@@ -42,16 +42,54 @@ Rational::Rational(string expr)
 {
     auto pos = expr.find("/");
     int p, q;
-    try {                                       // Maybe separate try for p and q
+    try {
         p = std::stoi(expr.substr(0, pos));
-        q = std::stoi(expr.substr(pos + 1));
     } catch(std::exception e) {
-        cout << "Error in expression '" << expr << "', defaulting to (1/1)" <<endl;
+        cout << "Error in numerator of expression '" << expr << "', defaulting to 1." <<endl;
         p = 1;
+    }
+
+    try {
+        q = std::stoi(expr.substr(pos + 1));
+    } catch (std::exception e) {
+        cout << "Error in denominator of expression '" << expr << "', defaulting to 1." <<endl;
         q = 1;
     }
     *this = Rational(p, q);
 }
+
+/**
+ * Performs calculation based on inputted string expression. Example:
+ * "4/5 - 9/-4" will return Rational{61, 20}
+ * @param expr String representation of expression.
+ * @return NOT IMPLENTED
+ */
+Rational Rational::calculate(string expr)
+{
+    cout << "Full expression: " << expr << "\n";
+    stringstream oss{expr};
+    string a, b;
+    char op;
+
+    oss >> a >> op >> b;
+    cout << "a: " << a << ", b: " << b << ", operation: " << op << ".\n";
+
+    switch (op) {
+        case '+':
+            return Rational{a} + Rational{b};
+        case '-':
+            return Rational{a} - Rational{b};
+        case '*':
+            return Rational{a} * Rational{b};
+        case '/':
+            return Rational{a} / Rational{b};
+        default:
+            break;
+    }
+
+    return Rational{};
+}
+
 
 /**
  * Calculates greatest common divider using std::__gcd() from <algoritm>. Always returns absolute value of gcd.

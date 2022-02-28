@@ -21,6 +21,8 @@ class Rational
         // void num(const int & num) { num_ = num; }
         // void den(const int & den) { den_ = den; }
 
+        static Rational calculate(string expr);
+
         int get_gcd();
 
         string to_string();
@@ -40,12 +42,17 @@ class Rational
 
         Rational operator- (const Rational & b)
         {
-            return Rational{};
+            int m = std::lcm(this->den_, b.den_);
+            int a_num = this->num_ * (m / this->den_);
+            int b_num = b.num_ * (m / b.den_);
+            return Rational{a_num - b_num, m};
         }
         
         Rational operator/ (const Rational & b)
         {
-            return Rational{};
+            int p = this->num_ * b.den_;
+            int q = this->den_ * b.num_;
+            return Rational{p, q};
         }
 
         Rational operator* (const Rational & b)
