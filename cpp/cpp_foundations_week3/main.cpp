@@ -79,16 +79,21 @@ void unit_test_constructor()
     cout << "(7/5) * (45/9) == (7/1)          | " << b_str(Rational{7, 5} * Rational{45/9} == Rational{7, 1}) << endl;
     cout << "(-143/57) / (32/9) == (-429/608) | " << b_str(Rational{-143, 57} / Rational{32, 9} == Rational{-429, 608}) << endl;
     cout << "(10/8) - (0/3) == (5/4)          | " << b_str(Rational{10, 8} - Rational{0, 3} == Rational{5, 4}) << endl;
-
-
+    cout << "(4/5) - (9/-4) == (61/20)        | " << b_str(Rational{4, 5} - Rational{9, -4} == Rational{61, 20}) << endl;
+    cout << "(5/6).pow(2) == (25/36)          | " << b_str(Rational{5, 6}.pow(2) == Rational{25, 36}) << endl;
+    cout << "(64/-8).pow(3) == (-512/1)       | " << b_str(Rational{64, -8}.pow(3) == Rational{-512, 1}) << endl;
+    cout << "(4/0) + (5/3) == (1/0)           | " << b_str(Rational{4, 0} + Rational{5, 3} == Rational{1, 0}) << endl;
+    cout << "(6/4) * (0/0) == (0/0)           | " << b_str(Rational{6, 4} * Rational{0, 0} == Rational{0, 0}) << endl;
 }
 
 int main()
 {
-    // unit_test_constructor();
+    unit_test_constructor();
 
-    Rational test = Rational::calculate("3/4 + 67/-3");
-    cout << test.to_string();
+    // Rational test = Rational::calculate("3/4 + 67/-3");
+    // cout << test.to_string();
+
+    Rational{}
     return 0;
 }
 

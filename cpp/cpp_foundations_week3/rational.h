@@ -4,6 +4,7 @@
 #include <string>
 #include <iostream>     // For debugging, can be removed later
 #include <numeric>      // For lcm
+#include <cmath>
 
 using std::string;
 
@@ -35,6 +36,7 @@ class Rational
         Rational operator+ (const Rational & b)
         {
             int m = std::lcm(this->den_, b.den_);
+            if (m == 0) return Rational{1, 0};
             int a_num = this->num_ * (m / this->den_);
             int b_num = b.num_ * (m / b.den_);
             return Rational{a_num + b_num, m};
@@ -68,6 +70,14 @@ class Rational
             return false;
         }
 
+        Rational pow(int n)
+        {
+            num_ = std::pow(num_, n);
+            den_ = std::pow(den_, n);
+            compile();
+            return *this;               // This is bad
+        }
+
     private:
         void compile();
         void flip_sign();
@@ -75,7 +85,5 @@ class Rational
         int num_, den_;
         double decimal_;
 };
-
-// should overload the following: add, subtract, multiply & divide
 
 #endif
