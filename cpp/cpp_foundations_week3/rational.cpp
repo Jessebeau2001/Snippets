@@ -66,14 +66,16 @@ Rational::Rational(string expr)
  */
 Rational Rational::calculate(string expr)
 {
-    cout << "Full expression: " << expr << "\n";
+    // cout << "Full expression: " << expr << "\n";
     stringstream oss{expr};
     string a, b;
     char op;
 
     oss >> a >> op >> b;
-    cout << "a: " << a << ", b: " << b << ", operation: " << op << ".\n";
+    // cout << "a: " << a << ", b: " << b << ", operation: " << op << ".\n";
 
+    if(a == "sqrt") return Rational{op + b}.sqrt();     // 'op + b' because the operator holds the first number, bit cheesy but works
+    
     switch (op) {
         case '+':
             return Rational{a} + Rational{b};
@@ -83,16 +85,17 @@ Rational Rational::calculate(string expr)
             return Rational{a} * Rational{b};
         case '/':
             return Rational{a} / Rational{b};
-        default:
-            break;
+        case '^':
+            return Rational{a}.pow(std::stoi(b));
     }
+
 
     return Rational{};
 }
 
 
 /**
- * Calculates greatest common divider using std::__gcd() from <algoritm>. Always returns absolute value of gcd.
+ * Calculates greatest common divider using std::__gcd() from <algorithm>. Always returns absolute value of gcd.
  * @return Abs of gcd.
  */
 int Rational::get_gcd()

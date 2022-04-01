@@ -72,10 +72,24 @@ class Rational
 
         Rational pow(int n)
         {
+            if (n == 0) return Rational{};
             num_ = std::pow(num_, n);
             den_ = std::pow(den_, n);
             compile();
             return *this;               // This is bad
+        }
+
+        Rational sqrt()
+        {
+            float sq_num = std::sqrt(num_);
+            float sq_den = std::sqrt(den_);
+            num_ = (int) sq_num;
+            den_ = (int) sq_den;
+
+            if (sq_num != num_ || sq_den != den_) return Rational{0, 0};
+
+            compile();
+            return *this;               // So bad
         }
 
     private:

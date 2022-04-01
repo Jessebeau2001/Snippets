@@ -5,7 +5,7 @@
     Rationals: https://en.wikipedia.org/wiki/Rational_number
     
     > About Get() Set():
-    I usually write in the form of: thisIsAVar & ThisIsAFunc() nut I try im_a_func() today.
+    I usually write in the form of: thisIsAVar & ThisIsAFunc() but I try im_a_func() today.
     I also feel super conflicted on the whole get() set() thing, I saw people talk about how they're
     a little bit evil, somewhat evil or even super evil but also saw some people say they're good practice.
     In a sense I do have to to agree that they can sometimes bloat the code so one could argue that a field isn't
@@ -23,6 +23,7 @@
 #include <iostream>
 #include <string>
 #include "rational.h"
+#include "rationalProcess.cc"
 
 using std::cout;
 using std::string;
@@ -88,13 +89,9 @@ void unit_test_constructor()
 
 int main()
 {
-    unit_test_constructor();
+    // unit_test_constructor();
 
-    // Rational test = Rational::calculate("3/4 + 67/-3");
-    // cout << test.to_string();
+    RationalProcess::process("./files/test.txt");
 
-    Rational{}
     return 0;
 }
-
-//cout << "() * () == () | " << b_str(Rational{} * Rational{ == Rational{}) << endl;
