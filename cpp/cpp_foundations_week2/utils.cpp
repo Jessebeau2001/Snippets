@@ -25,6 +25,24 @@ namespace utils
         std::cout << "Opening '" << path << "'" << std::endl;
         return stream;
     }
+    
+    // Updated function for appending stream, this one is imo way cleaner than the one above
+    //ifstream append_stream()
+    // {
+    //     ifstream stream{};
+    //     string path{};
+
+    //     cout << "Please enter a valid file path: ";
+    //     getline(cin, path);
+
+    //     while ((stream = ifstream{path}).is_open() == false) {      // Is this good, idk, I like this xD
+    //         cout << "file '"<< path << "' could not be found, please try again: ";
+    //         getline(cin, path);
+    //     }
+
+    //     cout << "Opening '" << path << "'" << std::endl;
+    //     return stream;
+    // }
 
     int parseInt()
     {
