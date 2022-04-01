@@ -87,11 +87,49 @@ void unit_test_constructor()
     cout << "(6/4) * (0/0) == (0/0)           | " << b_str(Rational{6, 4} * Rational{0, 0} == Rational{0, 0}) << endl;
 }
 
+enum Option { EXPRESSION = 1, FILE_PROCESS, QUIT };
+
+int parseInt()
+{
+    int n;
+    while (!(std::cin >> n) || n > 3) {
+        std::cin.clear();
+        std::string line;
+        std::getline(std::cin, line);
+        if (line == "") {
+            std::cout << n << " is not a valid option";
+        } else {
+            std::cout << line << " is not a number";
+        }
+        std::cout << ", please try again: ";
+    }
+    return n;
+}
+
 int main()
 {
-    // unit_test_constructor();
+    bool stay = true;
 
-    RationalProcess::process("./files/test.txt");
+    while (stay) {
+        cout << "Please select option: (1. Expressions - 2. File processing - 3. Quit): ";
+        Option option = (Option) parseInt();
 
+        switch(option) {
+            case EXPRESSION:
+                cout << "Please enter rational expression: ";
+                string line{};
+                std::getline(std::cin, line);
+                auto result = Rational::calculate(line);
+                cout << " = " << result.to_string();
+                break;
+            case FILE_PROCESS:
+                break;
+            case QUIT:
+                stay = false;
+                break;
+        }
+    }
+
+    cout << "Thank you and goodbye!";
     return 0;
 }

@@ -30,8 +30,6 @@ class RationalProcess
 
             return true;
         }
-
-    private:
 };
 
 #endif

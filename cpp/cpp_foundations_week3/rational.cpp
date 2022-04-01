@@ -62,7 +62,7 @@ Rational::Rational(string expr)
  * Performs calculation based on inputted string expression. Example:
  * "4/5 - 9/-4" will return Rational{61, 20}
  * @param expr String representation of expression.
- * @return NOT IMPLENTED
+ * @return Result of expression.
  */
 Rational Rational::calculate(string expr)
 {
