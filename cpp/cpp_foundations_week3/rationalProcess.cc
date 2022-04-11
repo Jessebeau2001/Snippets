@@ -14,11 +14,8 @@ using std::ofstream;
 class RationalProcess
 {
     public:
-        static bool process(string path)
+        static bool process(ifstream & stream_in)
         {
-            ifstream stream_in{path};
-            if (stream_in.is_open() == false) return false;
-
             ofstream stream_out;
             stream_out.open("./files/out.txt");
 
@@ -29,6 +26,14 @@ class RationalProcess
             }
 
             return true;
+        }
+
+        static bool process(string path)
+        {
+            ifstream stream_in{path};
+            if (stream_in.is_open() == false) return false;
+
+            process(stream_in);
         }
 };
 
