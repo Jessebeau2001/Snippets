@@ -1,19 +1,21 @@
 // File appender
 
-using <iostream>
+#include <iostream>
+#include <fstream>
+#include <string>
 
-ifstream appendStream()
+std::ifstream append_stream()
 {
-    ifstream stream{};
-    string path{};
+    std::ifstream stream{};
+    std::string path{};
 
-    cout << "Please enter a valid file path: ";
-    getline(cin, path);
-    while ((stream = ifstream{path}).is_open() == false) {
-        cout << "file '"<< path << "' could not be found, please try again: ";
-        getline(cin, path);
+    std::cout << "Please enter a valid file path: ";
+    getline(std::cin, path);
+    while ((stream = std::ifstream{path}).is_open() == false) {
+        std::cout << "file '"<< path << "' could not be found, please try again: ";
+        getline(std::cin, path);
     }
 
-    cout << "Opening '" << path << "'" << std::endl;
+    std::cout << "Opening '" << path << "'" << std::endl;
     return stream;
 }
