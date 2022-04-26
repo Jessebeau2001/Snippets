@@ -29,15 +29,16 @@ namespace GradeSystem
 
 		public override string ToString()
 		{
-			return new string($"GradeObj: (Grade: ({_grade}), Date: {_date}, ExamCode: {_examCode}, Note: '{_note}')");
+			return new string($"(Grade: ({_grade}), Date: {_date}, ExamCode: {_examCode}, Note: '{_note}')");
 		}
 		public double GradeNum
 		{
 			get => _grade;
 			set { if (_frozen == false) _grade = RoundToFive(Math.Clamp(value, 1, 10)); }
 		}
-		
+		public DateTime Date => _date;
 		public int ExamCode => _examCode;
+		public bool IsFrozen => _frozen;
 
 		private static double RoundToFive(double n)
 		{
