@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace GradeSystem
 {
@@ -6,10 +7,13 @@ namespace GradeSystem
 	{
 		static void Main(string[] args)
 		{
-			Grade grade = new Grade(7.36, 477437, "D4534231");
-			grade.grade = 2.33;
+			var student = new Student("Jesse", "Visscher", new DateTime(2001, 10, 8),477437);
 
-			Console.WriteLine(grade);
+			student.SetGrade(1234, 12);
+			student.SetGrade(4321, 2);
+			student.SetGrade(1234, 2.33);
+			
+			student.PrintGrades();
 		}
 	}
 }
