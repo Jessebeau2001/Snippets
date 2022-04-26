@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
-using Microsoft.VisualBasic;
 
 namespace GradeSystem
 {
-	class Student
+	internal class Student
 	{
 		private readonly DateTime _birthDate;
 		private readonly int _studentNumber;
@@ -44,12 +42,13 @@ namespace GradeSystem
 
 		public void SetGrade(int examCode, double value)
 		{
-			var grades = GradesFor(examCode);
-			if (grades.Any())
+			var grades = GradesFor(examCode);											// Find all matching coded grades
+			var meltedGrades = grades.FindAll(x => x.IsFrozen == false);			// Store unfrozen grades
+			
+			if (meltedGrades.Any())																// If any unfrozen exist
 			{
-				if (grades.Find(x => x.IsFrozen) == null)
-					foreach (var grade in grades)
-						grade.GradeNum = value;
+				foreach (var grade in meltedGrades)												// Change all unfrozen grades
+					grade.GradeNum = value;
 			} else {
 				_grades.Add(new Grade(value, examCode, ""));
 			}
@@ -63,7 +62,27 @@ namespace GradeSystem
 
 		public List<Grade> GradesFor(int examCode)
 		{
-			return _grades.FindAll(x => x.ExamCode == examCode);
+			return _grades.FindAll(grade => grade.ExamCode == examCode);
+		}
+		
+		public double GradePointAverage()
+		{
+			var final = new List<Grade>();			// Final marks used for calculating average
+			foreach (var grade in _grades)
+			{
+				var found = final.Find(x => x.ExamCode == grade.ExamCode);
+				if (found == null)
+				{
+					final.Add(grade);
+				} else {
+					if (grade.GradeNum < found.GradeNum) continue;
+					final.Remove(found);
+					final.Add(grade);
+				}
+			}
+			
+			return final.Average(grade => grade.GradeNum);
+			// return _grades.Where(grade => !grade.IsFrozen).Average(grade => grade.GradeNum);
 		}
 		
 		public DateTime BirthDay => _birthDate;

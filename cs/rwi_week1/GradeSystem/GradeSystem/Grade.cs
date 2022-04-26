@@ -1,16 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace GradeSystem
 {
-	class Grade
+	internal class Grade
 	{
 		private readonly DateTime _date;
 		private readonly int _examCode;
 		private readonly string _note;
 		private double _grade;
-		private bool _frozen = false;
+		private bool _frozen;
 
 		public Grade(double grade, DateTime date, int examCode, string note)
 		{
@@ -29,7 +27,7 @@ namespace GradeSystem
 
 		public override string ToString()
 		{
-			return new string($"(Grade: ({_grade}), Date: {_date}, ExamCode: {_examCode}, Note: '{_note}')");
+			return new string($"(Grade: ({_grade}), Date: {_date}, ExamCode: {_examCode}, Note: '{_note}', {(IsFrozen ? "Is" : "Not")} frozen)");
 		}
 		public double GradeNum
 		{
