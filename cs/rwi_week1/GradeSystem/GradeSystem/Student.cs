@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace GradeSystem
 {
-	internal class Student
+	public class Student
 	{
 		private readonly DateTime _birthDate;
 		private readonly int _studentNumber;

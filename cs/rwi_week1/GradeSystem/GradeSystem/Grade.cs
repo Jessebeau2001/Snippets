@@ -2,7 +2,7 @@
 
 namespace GradeSystem
 {
-	internal class Grade
+	public class Grade
 	{
 		private readonly DateTime _date;
 		private readonly int _examCode;
