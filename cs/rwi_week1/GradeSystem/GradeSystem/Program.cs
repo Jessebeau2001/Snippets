@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace GradeSystem
 {
@@ -12,26 +14,36 @@ namespace GradeSystem
 			_group.AddStudent(new Student("AnotherGuy", "SameBDay", new DateTime(2001, 10, 8),738952));
 			_group.AddStudent(new Student("Rick", "Vlake", new DateTime(2002, 5, 24), 355234));
 			_group.AddStudent(new Student("Noah", "Visscher", new DateTime(2002, 3, 20), 455736));
+			
+			_group.PrintStudents();
 
 			while (true)
 			{
 				if (_group.ParseCommand(Admin.ParseLine())) break;
 			}
-			
+
 			//CommandTest();
 		}
 
 		private static void CommandTest()
 		{
-			const string fsA = "-student -find -name Jesse Visscher";	// Finds 1 student named Jesse Visscher
-			const string fsB = "-student -find -birthday 08-10-2001";	// Finds 2 students with the same birthday
-			const string fsC = "-student -find -number 477437";			// Finds 1 student with student number 477437
-			const string fsD = "-student -find -name Doesn't Exist";		// Finds no student and notifies user
-			
-			RunCommand(fsA);
-			RunCommand(fsB);
-			RunCommand(fsC);
-			RunCommand(fsD);
+			var commands = new List<string>
+			{
+				"-student -find -name Jesse Visscher",		// Finds 1 student named Jesse Visscher
+				"-student -find -birthday 08-10-2001",		// Finds 2 students with the same birthday
+				"-student -find -number 477437",			// Finds 1 student with student number 477437
+				"-student -find -name Doesn't Exist",		// Finds no student and notifies user
+				
+				"-student -edit -firstname 477437 Jesse2",	// Edits firstname of 477437
+				"-student -edit -lastname 477437 Visscher2",// Edits lastname of 477437
+				"-student -edit -birthday 477437 8/10/2002",// Edits birthday of 477437
+				"-student -edit -firstname 123456 none",	// Doesnt find student 123456 and notifies user
+				"-student -edit -firstname invalid none",	// Fails to convert student number
+				"-student -edit -birthday 477437 invalid",	// Fails to convert date
+			};
+
+			foreach (var c in commands)
+				RunCommand(c);
 		}
 		private static void RunCommand(string command)
 		{

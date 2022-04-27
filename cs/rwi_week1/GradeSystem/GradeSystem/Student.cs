@@ -6,10 +6,10 @@ namespace GradeSystem
 {
 	public class Student
 	{
-		private readonly DateTime _birthDate;
 		private readonly int _studentNumber;
 		private readonly List<Grade> _grades = new List<Grade>();
 		// ReSharper disable MemberCanBePrivate.Global
+		public DateTime BirthDay { get; set; }
 		public string FirstName { get; set; }
 		public string LastName { get; set; }
 		public string FullName => FirstName + " " + LastName;
@@ -19,13 +19,13 @@ namespace GradeSystem
 		{
 			FirstName = fName;
 			LastName = lName;
-			_birthDate = bDay;
+			BirthDay = bDay;
 			_studentNumber = sNumber;
 		}
 
 		public override string ToString()
 		{	// String.Format() ??
-			return new string($"Student: (Name: '{FullName}', Birthday: {_birthDate}, Student Number: {_studentNumber})");
+			return new string($"Student: (Name: '{FullName}', Birthday: {BirthDay}, Student Number: {_studentNumber})");
 		}
 
 		public void PrintGrades()
@@ -84,8 +84,7 @@ namespace GradeSystem
 			return final.Average(grade => grade.GradeNum);
 			// return _grades.Where(grade => !grade.IsFrozen).Average(grade => grade.GradeNum);
 		}
-		
-		public DateTime BirthDay => _birthDate;
+
 		public int StudentNumber => _studentNumber;
 
 		private static bool InRange(DateTime date, DateTime start, DateTime end)
