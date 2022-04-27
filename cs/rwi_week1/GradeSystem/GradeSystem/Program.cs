@@ -14,25 +14,27 @@ namespace GradeSystem
 			_group.AddStudent(new Student("AnotherGuy", "SameBDay", new DateTime(2001, 10, 8),738952));
 			_group.AddStudent(new Student("Rick", "Vlake", new DateTime(2002, 5, 24), 355234));
 			_group.AddStudent(new Student("Noah", "Visscher", new DateTime(2002, 3, 20), 455736));
+			_group.AddStudent(new Student("Emir", "Bachivan", "10/10/2002", "584932"));
 			
-			_group.PrintStudents();
-
-			while (true)
+			/*while (true)
 			{
 				if (_group.ParseCommand(Admin.ParseLine())) break;
-			}
-
+			}*/
+			
+			//RunCommand("-student -delete 12345");
+			
 			//CommandTest();
 		}
 
 		private static void CommandTest()
 		{
+			
 			var commands = new List<string>
 			{
-				"-student -find -name Jesse Visscher",		// Finds 1 student named Jesse Visscher
-				"-student -find -birthday 08-10-2001",		// Finds 2 students with the same birthday
-				"-student -find -number 477437",			// Finds 1 student with student number 477437
-				"-student -find -name Doesn't Exist",		// Finds no student and notifies user
+				"-student -list -name Jesse Visscher",		// Finds 1 student named Jesse Visscher
+				"-student -list -birthday 08-10-2001",		// Finds 2 students with the same birthday
+				"-student -list -number 477437",			// Finds 1 student with student number 477437
+				"-student -list -name Doesn't Exist",		// Finds no student and notifies user
 				
 				"-student -edit -firstname 477437 Jesse2",	// Edits firstname of 477437
 				"-student -edit -lastname 477437 Visscher2",// Edits lastname of 477437
@@ -40,10 +42,21 @@ namespace GradeSystem
 				"-student -edit -firstname 123456 none",	// Doesnt find student 123456 and notifies user
 				"-student -edit -firstname invalid none",	// Fails to convert student number
 				"-student -edit -birthday 477437 invalid",	// Fails to convert date
+				
+				"-student -add Mikal Bossink 6/05/2002, 218967",	// Adds new student to system
+				"-student -add Mikal Bossink 6/05/2002, 218967",	// Adds existing user to system but fails
+				"-student -add Mikal Bossink 6/05/2002, NoNumber",	// Fails to add new student
+				"-student -add Mikal Bossink NoDate, 218967",		// Fails to add new student
+				
+				"-student -delete 1",						// Fails and prints failed student number
+				"-student -delete 218967",					// Deletes student Mikal Bossink (218967)
 			};
-
+			
+			_group.NeedConfirmation = false;
 			foreach (var c in commands)
 				RunCommand(c);
+			
+			_group.NeedConfirmation = true;
 		}
 		private static void RunCommand(string command)
 		{

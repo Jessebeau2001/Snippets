@@ -1,31 +1,52 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Runtime.Serialization;
 
 namespace GradeSystem
 {
     public class Admin
     {
+        private const string ConfirmKey = "Y";
+        public bool NeedConfirmation { get; set; } = true;
         private readonly List<Student> _students = new List<Student>(); // The list itself should not be assignable
         
-        public void PrintStudents()
+        public enum SortType { Firstname, Lastname, Birthday, StudentNumber }
+        
+        public void PrintStudents(SortType type = SortType.StudentNumber)
         {
-            foreach (var s in _students)
-                Console.WriteLine(s);
+            var sorted = type switch
+            {
+                SortType.Firstname => _students.OrderBy(x => x.FirstName).ToList(),
+                SortType.Lastname => _students.OrderBy(x => x.LastName).ToList(),
+                SortType.Birthday => _students.OrderBy(x => x.BirthDay).ToList(),
+                SortType.StudentNumber => _students.OrderBy(x => x.StudentNumber).ToList(),
+                _ => _students
+            };
+
+            for (var i = 0; i < sorted.Count; i++)
+                Console.WriteLine($"[{i}]: {sorted[i]}");
         }
 
-        public void AddStudent(Student s)
+        public void SortList(SortType type)
+        {
+            _students.Sort();
+        }
+
+
+        public bool AddStudent(Student s)
         {
             if (_students.Any(student => student.StudentNumber == s.StudentNumber))
-                return;     // Can never have to students with the same number
+                return false;     // Can never have to students with the same number
             
             _students.Add(s);
+            return true;
         }
 
-        public void RemoveStudent(Student s)
+        public bool DeleteStudent(Student s)
         {
-            _students.Remove(s);
+            return _students.Remove(s);
         }
         
         private List<Student> FindStudent(string name)
@@ -53,8 +74,8 @@ namespace GradeSystem
 
             return split;
         }
-        // TODO: Implement -grade param
-        public bool ParseCommand(string[] args)
+        
+        public bool ParseCommand(IReadOnlyList<string> args)
         {
             switch (args[0])
             {
@@ -72,28 +93,39 @@ namespace GradeSystem
                     return false;
             }
         }
+        
         private void HandleCommandStudent(IReadOnlyList<string> args)
         {
             switch (args[1])
             {
-                case "-find":
-                    HandleArgumentFindStudent(args);
+                case "-list":
+                    HandleArgumentListStudent(args);
                     break;
                 case "-edit":
                     HandleArgumentEditStudent(args);
+                    break;
+                case "-add":
+                    HandleArgumentAddUser(args);
+                    break;
+                case "-delete":
+                    HandleArgumentDeleteStudent(args);
                     break;
                 default:
                     Console.WriteLine($"Argument {args[1]} is invalid.");
                     break;
             }
         }
-        private void HandleArgumentFindStudent(IReadOnlyList<string> args)
+        
+        private void HandleArgumentListStudent(IReadOnlyList<string> args)
         {
             List<Student> s = null;
             var term = "";
             
             switch (args[2])
             {
+                case "-all":
+                    PrintStudents();
+                    return;
                 case "-name":
                     s = FindStudent(term = args[3] + " " + args[4]);
                     break;
@@ -119,6 +151,7 @@ namespace GradeSystem
             foreach (var student in s)
                 Console.WriteLine("Found " + student);
         }
+        
         private void HandleArgumentEditStudent(IReadOnlyList<string> args)
         {
             int studentNr;
@@ -164,6 +197,54 @@ namespace GradeSystem
                     return;
             }
         }
+        
+        private void HandleArgumentAddUser(IReadOnlyList<string> args)
+        {
+            var s = new Student(args[2], args[3], args[4], args[5]);
+            if (s.IsDefault)
+            {
+                Console.WriteLine($"Invalid data format for new student: {args[2]} {args[3]} {args[4]} {args[5]}");
+                return;
+            }
+
+            Console.WriteLine($"Adding {s} to database, type '{ConfirmKey}' to confirm... ");
+            if (UserConfirm())
+            {
+                Console.WriteLine(AddStudent(s)
+                    ? "Successfully added student to database!"
+                    : $"Failed to add student, student-number '{s.StudentNumber}' already exists!");
+                return;
+            }
+
+            Console.WriteLine("Action cancelled!");
+        }
+
+        private void HandleArgumentDeleteStudent(IReadOnlyList<string> args)
+        {
+            int.TryParse(args[2], out var number);
+            var match = FindStudent(number);
+            if (!match.Any())
+            {
+                Console.WriteLine($"Could not find student with number {args[2]}");
+                return;
+            }
+            var s = match.First();
+            Console.WriteLine($"Attempt to delete {s}, type '{ConfirmKey}' to confirm...");
+            if (UserConfirm())
+            {
+                DeleteStudent(s);
+                Console.WriteLine($"Student successfully deleted!");
+                return;
+            }
+            Console.WriteLine("Action cancelled!");
+        }
+
+        private bool UserConfirm()
+        {
+            if (NeedConfirmation == false) return true;
+            var line = Console.ReadLine();
+            return line != null && line.ToUpper() == ConfirmKey;
+        }
     }
 }
 
@@ -182,8 +263,9 @@ namespace GradeSystem
     
     Entry options: -student, -exit, TODO: -grade, -help
         
-    Student options: -find, -edit, TODO: -add, -delete
-        Options (-find): -name, -number, -birthday
+    Student options: -list, -edit, -add, -delete
+        Options (-list): -all -name, -number, -birthday
+            Params (-all): sort-by
             Params (-name):  full name
             Params (-number): student number
             Params (-birthday): birthday (eg: 08/10/2001)
@@ -191,10 +273,11 @@ namespace GradeSystem
             Params (-firstname): student-number, new first name
             Params (-lastname): student-number, new last name
             Params (-birthday): student-number, new birthday
-        Options (-add): TODO: NONE
+        Options (-add): NONE
             Params: first-name, last-name, birthday, student-number
-        Options (-remove): TODO: NONE
-            Params: student-number, full-name => Type full name as well to make sure that deletion was no mistake
+        Options (-delete): NONE
+            Params: student-number
+        NOTE: Both -add & -delete ask for extra confirmation
             
     Grade options: TODO: -find, -edit, -average, -freeze
         Options (-find): TODO: -fullname, -number, -code, -date, 

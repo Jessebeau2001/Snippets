@@ -4,16 +4,15 @@ using System.Linq;
 
 namespace GradeSystem
 {
-	public class Student
+	public class Student : IComparable<Student>
 	{
 		private readonly int _studentNumber;
 		private readonly List<Grade> _grades = new List<Grade>();
-		// ReSharper disable MemberCanBePrivate.Global
 		public DateTime BirthDay { get; set; }
 		public string FirstName { get; set; }
 		public string LastName { get; set; }
 		public string FullName => FirstName + " " + LastName;
-		// ReSharper restore MemberCanBePrivate.Global
+		public bool IsDefault => BirthDay == DateTime.MinValue || _studentNumber == 0;
 
 		public Student(string fName, string lName, DateTime bDay, int sNumber)
 		{
@@ -23,9 +22,20 @@ namespace GradeSystem
 			_studentNumber = sNumber;
 		}
 
+		public Student(string fName, string lName, string bDay, string sNumber)
+		{
+			DateTime.TryParse(bDay, out var birthday);
+			int.TryParse(sNumber, out var number);
+			
+			FirstName = fName;
+			LastName = lName;
+			BirthDay = birthday;
+			_studentNumber = number;
+		}
+
 		public override string ToString()
-		{	// String.Format() ??
-			return new string($"Student: (Name: '{FullName}', Birthday: {BirthDay}, Student Number: {_studentNumber})");
+		{
+			return new string($"Student: (Name: '{FullName}', Birthday: {BirthDay:MM/dd/yyyy}, Student Number: {_studentNumber})");
 		}
 
 		public void PrintGrades()
@@ -83,6 +93,12 @@ namespace GradeSystem
 			
 			return final.Average(grade => grade.GradeNum);
 			// return _grades.Where(grade => !grade.IsFrozen).Average(grade => grade.GradeNum);
+		}
+		
+		// Default comparator for IComparable
+		public int CompareTo(Student other)
+		{
+			return other == null ? 1 : this.StudentNumber.CompareTo(other.StudentNumber);
 		}
 
 		public int StudentNumber => _studentNumber;
