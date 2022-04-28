@@ -21,8 +21,6 @@ namespace GradeSystem
 				if (_group.ParseCommand(Admin.ParseLine())) break;
 			}*/
 			
-			//RunCommand("-student -delete 12345");
-			
 			//CommandTest();
 		}
 
@@ -35,6 +33,10 @@ namespace GradeSystem
 				"-student -list -birthday 08-10-2001",		// Finds 2 students with the same birthday
 				"-student -list -number 477437",			// Finds 1 student with student number 477437
 				"-student -list -name Doesn't Exist",		// Finds no student and notifies user
+				
+				"-student -list -all",						// Prints unsorted list
+				"-student -list -all number",				// Prints list sorted based on student number
+				"-student -list -all typo",					// Doesn't print list and notifies user of unkown type
 				
 				"-student -edit -firstname 477437 Jesse2",	// Edits firstname of 477437
 				"-student -edit -lastname 477437 Visscher2",// Edits lastname of 477437

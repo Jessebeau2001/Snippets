@@ -3,18 +3,36 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Runtime.Serialization;
+using Microsoft.Win32.SafeHandles;
 
 namespace GradeSystem
 {
+    public static class EnumExtensions
+    {
+        public static SortType SortTypeFromString(this string type)
+        {   // ToString exists for enums but I like this better
+            var t = type switch
+            {
+                "firstname" => SortType.Firstname,
+                "lastname" => SortType.Lastname,
+                "birthday" => SortType.Birthday,
+                "number" => SortType.StudentNumber,
+                _ => SortType.Default
+            };
+            
+            return t;
+        }
+    }
+    
+    public enum SortType { Firstname, Lastname, Birthday, StudentNumber, Default }
+    
     public class Admin
     {
         private const string ConfirmKey = "Y";
         public bool NeedConfirmation { get; set; } = true;
         private readonly List<Student> _students = new List<Student>(); // The list itself should not be assignable
-        
-        public enum SortType { Firstname, Lastname, Birthday, StudentNumber }
-        
-        public void PrintStudents(SortType type = SortType.StudentNumber)
+
+        public void PrintStudents(SortType type = SortType.Lastname)
         {
             var sorted = type switch
             {
@@ -22,18 +40,17 @@ namespace GradeSystem
                 SortType.Lastname => _students.OrderBy(x => x.LastName).ToList(),
                 SortType.Birthday => _students.OrderBy(x => x.BirthDay).ToList(),
                 SortType.StudentNumber => _students.OrderBy(x => x.StudentNumber).ToList(),
-                _ => _students
+                _ => _students      // When null returns an unsorted list
             };
 
             for (var i = 0; i < sorted.Count; i++)
                 Console.WriteLine($"[{i}]: {sorted[i]}");
         }
 
-        public void SortList(SortType type)
+        /*public void SortList(SortType type)
         {
             _students.Sort();
-        }
-
+        }*/
 
         public bool AddStudent(Student s)
         {
@@ -124,7 +141,20 @@ namespace GradeSystem
             switch (args[2])
             {
                 case "-all":
-                    PrintStudents();
+                    if (args.Count < 4)
+                    {
+                        PrintStudents();
+                        return;
+                    }
+
+                    var type = args[3].SortTypeFromString();
+                    if (type == SortType.Default)
+                    {
+                        // TODO: Tel user optional params
+                        Console.WriteLine($"Can't sort based on value '{args[3]}!'");
+                        return;
+                    }
+                    PrintStudents(type);
                     return;
                 case "-name":
                     s = FindStudent(term = args[3] + " " + args[4]);
