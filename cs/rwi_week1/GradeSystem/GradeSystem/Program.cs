@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace GradeSystem
 {
@@ -36,7 +35,7 @@ namespace GradeSystem
 				
 				"-student -list -all",						// Prints unsorted list
 				"-student -list -all number",				// Prints list sorted based on student number
-				"-student -list -all typo",					// Doesn't print list and notifies user of unkown type
+				"-student -list -all typo",					// Doesn't print list and notifies user of unknown type
 				
 				"-student -edit -firstname 477437 Jesse2",	// Edits firstname of 477437
 				"-student -edit -lastname 477437 Visscher2",// Edits lastname of 477437

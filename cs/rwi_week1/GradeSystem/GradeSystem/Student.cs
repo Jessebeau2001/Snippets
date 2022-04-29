@@ -64,7 +64,7 @@ namespace GradeSystem
 			}
 		}
 
-		// For debugging only
+		// Public for debugging only
 		public void AddGrade(Grade grade)
 		{
 			_grades.Add(grade);
