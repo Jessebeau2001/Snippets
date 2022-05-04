@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
-using System.Runtime.Serialization;
-using Microsoft.Win32.SafeHandles;
 
 namespace GradeSystem
 {
@@ -46,11 +43,6 @@ namespace GradeSystem
             for (var i = 0; i < sorted.Count; i++)
                 Console.WriteLine($"[{i}]: {sorted[i]}");
         }
-
-        /*public void SortList(SortType type)
-        {
-            _students.Sort();
-        }*/
 
         public bool AddStudent(Student s)
         {
