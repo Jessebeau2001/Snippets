@@ -1,23 +1,25 @@
 ﻿namespace RPN
 {
     // public class Token<T> where T : Enum
+    public enum Signature { Number, Operator }
+    public interface IToken
+    {
+        Signature Sign { get; init; }
+    }
     
-    public interface IToken {}
     public readonly struct Token<T> : IToken
     {
-        private enum Signature { Number, Operator }
+        public Signature Sign { get; init; }
         private T Value { get; }
-        private Signature Sig { get; }
-        
         public Token(T value)
         {
             Value = value;
-            Sig = Value is int ? Signature.Number : Signature.Operator;
+            Sign = Value is int ? Signature.Number : Signature.Operator;
         }
 
         public override string ToString()
         {
-            return new string($"(Token: '{Value}', Signature: '{Sig}')");
+            return new string($"Token: '{Value}', Signature: '{Sign}'");
         }
     }
 }
