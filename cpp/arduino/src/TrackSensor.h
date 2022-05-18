@@ -22,7 +22,7 @@ public:
         Serial.print(" gives center pin: "); Serial.println(*center_pin);
     }
 
-    void printSegments()
+    void printSegments() const
     {
         for (int i = 0; i < pin_count; i++)
         {
@@ -33,21 +33,16 @@ public:
         Serial.println("|");
     }
 
-    int getSteerAngle()
+    int getAngle()
     {
         update();
         return angle;
     }
 
-    enum Line { START, LEFT, MIDDLE, RIGHT, LOST };
+    enum Line { LEFT, MIDDLE, RIGHT, LOST };
 
-    const Line & getState()
+    const Line & getState() const
     {
-        if (angle != 0) {
-            if (angle < 0) state = LEFT;
-            else state = RIGHT;
-        }
-        else state = MIDDLE;
         return state;
     }
 
@@ -58,20 +53,30 @@ private:
 
     const byte * center_pin;
     vec2 vector{};
-    Line state = START;
+    Line state = LOST;
 
     void update() override
     {
         vector.zero();
         for (int i = 0; i < pin_count; i++)
         {
-            if (lineFound(pins[i])) vector += vec2(i - center_pin_pos, 5);
+            if (lineFound(pins[i])) vector += vec2(i - center_pin_pos, 5); // NOLINT(cppcoreguidelines-narrowing-conversions)
         }
 
-        if (vector.isZero()) return;
+        if (vector.isZero())
+        {
+            state = LOST;
+            return;
+        }
 
         vector.normalize();
-        angle = vec2(-1, 0).angle(vector) - 90;
+        angle = vec2(-1, 0).angle(vector) - 90; // NOLINT(cppcoreguidelines-narrowing-conversions)
+
+        if (angle != 0) {
+            if (angle < 0) state = LEFT;
+            else state = RIGHT;
+        }
+        else state = MIDDLE;
     }
 
     // Pin IS pin, not index

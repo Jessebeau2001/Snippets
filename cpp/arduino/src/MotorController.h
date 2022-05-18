@@ -24,6 +24,18 @@ public:
         setEnable(enabled);
     }
 
+    void driveForward()
+    {
+        digitalWrite(*pin_a(), LOW);
+        digitalWrite(*pin_b(), HIGH);
+    }
+
+    void brake()
+    {
+        digitalWrite(*pin_a(), LOW);
+        digitalWrite(*pin_b(), LOW);
+    }
+
     void setSpeed(const int & new_speed)
     {
         current_speed = new_speed;
@@ -47,7 +59,7 @@ public:
         Serial.print(" and speed is set to: "); Serial.println(current_speed);
     }
 
-protected:
+private:
     byte * pin_a() { return &pins[0]; }         // These can also be references
     byte * pin_b() { return &pins[1]; }         // but I think pointers make more
     byte * pin_speed() { return &pins[2]; }     // sense in this context
