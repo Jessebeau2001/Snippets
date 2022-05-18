@@ -9,7 +9,10 @@ public:
             this->pins[i] = pins[i];    // TODO: Take a look at memcpy
     }
 
-    //TODO: Add constructor for something with 1 pin, so no variadic arguments to be handled there
+    explicit IComponent(const byte & pin) : IComponent(1)
+    {
+        pins[0] = pin;
+    }
 
     ~IComponent()
     {
@@ -24,9 +27,19 @@ protected:
     }
 
     virtual void init() = 0;
-    virtual void printDebug() = 0;
+
+    virtual void printDebug()
+    {
+        Serial.print(" with pins: ["); Serial.print(pins[0]);
+        for (int i = 1; i < pin_count; i++)
+        {
+            Serial.print(", "); Serial.print(pins[i]);
+        }
+        Serial.println("])");
+    }
 
     byte * pins;
     int pin_count;
 };
+
 #endif

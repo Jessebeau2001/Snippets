@@ -15,6 +15,7 @@ struct vec2
     float length() const;
     float dot(const vec2 & other) const;
     float angle(const vec2 & other) const;
+    bool isZero() const;
 
     void normalize();
     void zero();

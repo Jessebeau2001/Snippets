@@ -26,21 +26,39 @@ public:
     {
         for (int i = 0; i < pin_count; i++)
         {
-            Serial.print(lineFound(i) ? "| # " : "| . ");
+            Serial.print(lineFound(pins[i]) ? "| # " : "| . ");
+//            Serial.print("| ");
+//            Serial.print(analogRead(pins[i]));
         }
         Serial.println("|");
     }
 
-    void publicUpdateCallForDebug()
+    int getSteerAngle()
     {
         update();
+        return angle;
+    }
+
+    enum Line { START, LEFT, MIDDLE, RIGHT, LOST };
+
+    const Line & getState()
+    {
+        if (angle != 0) {
+            if (angle < 0) state = LEFT;
+            else state = RIGHT;
+        }
+        else state = MIDDLE;
+        return state;
     }
 
 private:
     int threshold = 0;
     int center_pin_pos;
+    int angle = 0;
+
     const byte * center_pin;
     vec2 vector{};
+    Line state = START;
 
     void update() override
     {
@@ -50,11 +68,13 @@ private:
             if (lineFound(pins[i])) vector += vec2(i - center_pin_pos, 5);
         }
 
+        if (vector.isZero()) return;
+
         vector.normalize();
-        Serial.print("Angle: ");
-        Serial.println(vec2(-1, 0).angle(vector) - 90);
+        angle = vec2(-1, 0).angle(vector) - 90;
     }
 
+    // Pin IS pin, not index
     bool lineFound(const byte & pin) const
     {
         return analogRead(pin) < threshold;

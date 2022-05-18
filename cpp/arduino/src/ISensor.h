@@ -4,25 +4,18 @@
 #include <Arduino.h>
 #include "IComponent.h"
 
-//template <typename T> // Maybe this eventually
 class ISensor : public IComponent
 {
 public:
     ISensor(const int & pin_count, const byte * pins) : IComponent(pin_count, pins)
     {
-        init();
+        ::init(); // If things don't work any more remove '::'
     }
 
     void printDebug() override
     {
-        Serial.print("(Sensor with pins: [");
-        Serial.print(pins[0]);
-        for (int i = 1; i < pin_count; i++)
-        {
-            Serial.print(", ");
-            Serial.print(pins[i]);
-        }
-        Serial.println("])");
+        Serial.print("(Sensor");
+        IComponent::printDebug();
     }
 
 protected:
