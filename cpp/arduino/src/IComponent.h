@@ -5,8 +5,12 @@ class IComponent {
 public:
     explicit IComponent(const int & pin_count, const byte * pins) : IComponent(pin_count)
     {
-        for (int i = 0; i < pin_count; i++)
-            this->pins[i] = pins[i];    // TODO: Take a look at memcpy
+//        for (int i = 0; i < pin_count; i++)
+//        {
+//            this->pins[i] = pins[i];
+//        }
+
+         memcpy(this->pins, pins, pin_count); // TODO: Consider this
     }
 
     explicit IComponent(const byte & pin) : IComponent(1)
