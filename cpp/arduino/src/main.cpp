@@ -1,35 +1,37 @@
+//#include "../.pio/libdeps/uno/LiquidCrystal_I2C/LiquidCrystal_I2C.h"
 #include <Arduino.h>
-#include "../.pio/libdeps/uno/Servo/src/Servo.h"
-#include "TrackSensor.h"
-#include "MotorController.h"
+#include "MotorShield.h"
+#include "SteerSystem.h"
+#include "ButtonSwitch.h"
 
-byte sensor_pins[5] = { A0, A2, A3, A4, A5 };
-TrackSensor tracker = TrackSensor(5, sensor_pins);
-Servo steer;
-MotorController motor = MotorController(4, 7, 6, A1, 70, true);
+#include "Accelerometer.h"
 
-int steer_angle = 0;
-float steer_mod = 1.4;
+#include <Wire.h>
+
+byte tracker_pins[5] = { 2, 3, 11, 12, 13 };
+TrackSensor_Digital tracker = TrackSensor_Digital(5, tracker_pins);
+Servo steer_servo;
+SteerSystem steerSystem = SteerSystem(&tracker, &steer_servo, 10);
+
+MotorShield motor = MotorShield(4, 9, 6, A1, 55, true); // Motor B
+
+//Accelerometer gyro = Accelerometer(0x68);
 
 void setup()
 {
     Serial.begin(9600);
 
-    tracker.printDebug();
-    motor.printDebug();
-
-    steer.attach(9);
+    steerSystem.init();
 }
 
 void loop()
 {
-    steer_angle = tracker.getAngle();
+    steerSystem.update();
+    motor.driveForward();
 
-    if (tracker.getState() == TrackSensor::LOST)
-    {
-        motor.brake();
-    } else {
-        motor.driveForward();
-        steer.write(90 + steer_angle * steer_mod); // NOLINT(cppcoreguidelines-narrowing-conversions)
-    }
+//    if (tracker.getState() != TrackSensor::LOST)
+//        motor.driveForward();
+//    else
+//        motor.brake();
 }
+

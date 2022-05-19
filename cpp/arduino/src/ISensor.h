@@ -9,7 +9,7 @@ class ISensor : public IComponent
 public:
     ISensor(const int & pin_count, const byte * pins) : IComponent(pin_count, pins)
     {
-        ::init(); // If things don't work any more remove '::'
+        ::init();
     }
 
     void printDebug() override
@@ -19,6 +19,8 @@ public:
     }
 
 protected:
+    using IComponent::IComponent; // Grant accesses to constructor for overlaying classes
+
     void init() override
     {
         Serial.println("Setting up Sensor");

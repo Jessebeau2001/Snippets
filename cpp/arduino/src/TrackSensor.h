@@ -27,8 +27,6 @@ public:
         for (int i = 0; i < pin_count; i++)
         {
             Serial.print(lineFound(pins[i]) ? "| # " : "| . ");
-//            Serial.print("| ");
-//            Serial.print(analogRead(pins[i]));
         }
         Serial.println("|");
     }
@@ -46,7 +44,7 @@ public:
         return state;
     }
 
-private:
+protected:
     int threshold = 0;
     int center_pin_pos;
     int angle = 0;
@@ -66,6 +64,7 @@ private:
         if (vector.isZero())
         {
             state = LOST;
+            angle = 0;
             return;
         }
 
@@ -80,9 +79,22 @@ private:
     }
 
     // Pin IS pin, not index
-    bool lineFound(const byte & pin) const
+    virtual bool lineFound(const byte & pin) const
     {
         return analogRead(pin) < threshold;
+    }
+};
+
+class TrackSensor_Digital : public TrackSensor
+{
+public:
+    using TrackSensor::TrackSensor;
+
+protected:
+    // Because of out beautiful code structure we only need to overload 1 method to make the whole thing rely on digital
+    bool lineFound(const byte & pin) const override
+    {
+        return !digitalRead(pin);
     }
 };
 

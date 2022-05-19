@@ -9,10 +9,10 @@
  * Driver 2: Control Pins (4 & 9), PWM Speed pin (6), Enable pin (A1)
  */
 
-class MotorController : public IActuator
+class MotorShield : public IActuator
 {
 public:
-    MotorController(byte pin_a, byte pin_b, byte pin_speed, byte pin_enable, // Calls constructor in IComponent
+    MotorShield(byte pin_a, byte pin_b, byte pin_speed, byte pin_enable, // Calls constructor in IComponent
         int default_speed = 70, bool enabled = false) : IActuator(4)
     {
         pins[0] = pin_a;
