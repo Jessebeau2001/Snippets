@@ -4,6 +4,22 @@
 #include "ISensor.h"
 #include <Wire.h>
 
+struct vec3 : IPrintable
+{
+    int8_t x{}, y{}, z{};
+
+    vec3() = default;
+
+    vec3(int8_t x, int8_t y, int8_t z) : x(x), y(y), z(z) { }
+
+    void printDebug() override
+    {
+        Serial.print("Vec3: (X: "); Serial.write(x);
+        Serial.print(", Y: "); Serial.write(y);
+        Serial.print(", Z: "); Serial.write(z);
+    }
+};
+
 struct coord : IPrintable
 {
     int8_t x{}, y{}, z{};
