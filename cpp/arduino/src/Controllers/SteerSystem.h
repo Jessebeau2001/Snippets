@@ -1,14 +1,14 @@
 #ifndef STEERSYSTEM_H
 #define STEERSYSTEM_H
 
-#include "SimpleInterfaces.h"
-#include "../.pio/libdeps/uno/Servo/src/Servo.h"
-#include "TrackSensor.h"
+#include "Interfaces/SimpleInterfaces.h"
+#include "../../.pio/libdeps/uno/Servo/src/Servo.h"
+#include "Components/TrackSensor.h"
 
-class SteerSystem : IPrintable, IInitializable
+class SteerSystem : IUpdatable, IInitializable, IPrintable
 {
 private:
-    TrackSensor * line_sensor;
+    TrackSensor * line_sensor;  // TODO: Consider making these const, or make the pointers in motorcontroller variable
     Servo * steer_wheel;
 
     int servo_pin;
@@ -23,11 +23,11 @@ public:
 
     void init() override
     {
-        if (!steer_wheel->attached())       // Don't do this in constructor, Servo library doesnt like that
+        if (!steer_wheel->attached())       // Don't do this in constructor, Servo library doesn't like that
             steer_wheel->attach(servo_pin);
     }
 
-    void update()
+    void update() override
     {
         angle_current = (int) ((float) angle_offset + (float) line_sensor->getAngle() * angle_modifier);
         if (line_sensor->getState() == TrackSensor::LOST) return; // Remember angle when going around corner
@@ -39,8 +39,7 @@ public:
         Serial.println("Steer system: ");
         Serial.println("> Steer servo: vvv");
         Serial.print("Servo is attached to pin: "); Serial.println(servo_pin);
-        Serial.println("> Line sensor: vvv");
-        line_sensor->printDebug();
+        Serial.println("> Line sensor: vvv"); line_sensor->printDebug();
     }
 
     void setMod(const float & modifier) { angle_modifier = modifier; }

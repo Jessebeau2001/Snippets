@@ -1,37 +1,31 @@
-//#include "../.pio/libdeps/uno/LiquidCrystal_I2C/LiquidCrystal_I2C.h"
 #include <Arduino.h>
-#include "MotorShield.h"
-#include "SteerSystem.h"
-#include "ButtonSwitch.h"
+#include "Controllers/SteerSystem.h"
+#include "Controllers/MotorController.h"
 
-#include "Accelerometer.h"
+//byte tracker_pins[5] = { 2, 3, 11, 12, 13 };
+//TrackSensor_Digital tracker = TrackSensor_Digital(5, tracker_pins);
+//Servo steer_servo;
+//SteerSystem steerSystem = SteerSystem(&tracker, &steer_servo, 10);
 
-#include <Wire.h>
+MotorShield shield = MotorShield(4, 9, 6, A1, 55, true); // Motor B
+PotMeter pot = PotMeter(A3);
+Accelerometer accel = Accelerometer(0x68);
+MotorController motorControl = MotorController(&shield, &pot, &accel);
 
-byte tracker_pins[5] = { 2, 3, 11, 12, 13 };
-TrackSensor_Digital tracker = TrackSensor_Digital(5, tracker_pins);
-Servo steer_servo;
-SteerSystem steerSystem = SteerSystem(&tracker, &steer_servo, 10);
-
-MotorShield motor = MotorShield(4, 9, 6, A1, 55, true); // Motor B
-
-//Accelerometer gyro = Accelerometer(0x68);
 
 void setup()
 {
     Serial.begin(9600);
 
-    steerSystem.init();
+    accel.init();
+    motorControl.init();
+    motorControl.setState(MotorController::DRIVE);
 }
 
 void loop()
 {
-    steerSystem.update();
-    motor.driveForward();
-
-//    if (tracker.getState() != TrackSensor::LOST)
-//        motor.driveForward();
-//    else
-//        motor.brake();
+    Serial.print("Target speed: "); Serial.print(motorControl.getTargetSpeed()); Serial.println();
+//    Serial.print(", "); pot.printDebug();
+    motorControl.update();
 }
 

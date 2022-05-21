@@ -14,7 +14,7 @@ public:
 protected:
     using IComponent::IComponent;   // Grants access to IComponent(const int & pin_count)
 
-    void init() override
+    void init() override            // Implementation of IInitializable (src in IComponent)
     {
         for (int i = 0; i < pin_count; i++)
         {

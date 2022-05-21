@@ -2,9 +2,9 @@
 #define ISENSOR_H
 
 #include <Arduino.h>
-#include "IComponent.h"
+#include "Interfaces/IComponent.h"
 
-class ISensor : public IComponent
+class ISensor : public IComponent, IUpdatable
 {
 public:
     ISensor(const int & pin_count, const byte * pins) : IComponent(pin_count, pins)
@@ -19,7 +19,7 @@ public:
     }
 
 protected:
-    using IComponent::IComponent; // Grant accesses to constructor for overlaying classes
+    using IComponent::IComponent; // Grant accesses to single argument constructor for overlaying classes
 
     void init() override
     {
@@ -29,8 +29,6 @@ protected:
             pinMode(pins[i], INPUT);
         }
     }
-
-    virtual void update() = 0;
 };
 
 #endif

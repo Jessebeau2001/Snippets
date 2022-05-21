@@ -1,10 +1,10 @@
-#ifndef MOTORCONTROLLER_H
-#define MOTORCONTROLLER_H
+#ifndef MOTORSHIELD_H
+#define MOTORSHIELD_H
 
-#include "IActuator.h"
+#include "Interfaces/IActuator.h"
 
 /*
- * The pins for motor driver we are using are:
+ * The pins for motorControl driver we are using are:
  * Driver 1: Control Pins (7 & 8), PWM Speed pin (5), Enable pin (A0)
  * Driver 2: Control Pins (4 & 9), PWM Speed pin (6), Enable pin (A1)
  */
@@ -50,13 +50,12 @@ public:
 
     void printDebug() override
     {
-        IActuator::printDebug();
-        Serial.print("^^^ Motor pin A: "); Serial.print(*pin_a());
-        Serial.print(", pin B: "); Serial.println(*pin_b());
-        Serial.print("Speed dial pin: "); Serial.print(*pin_speed());
-        Serial.print(", enable pin: "); Serial.println(*pin_enable());
-        Serial.print("Motor is "); Serial.print(enabled ? "enabled" : "disabled");
-        Serial.print(" and speed is set to: "); Serial.println(current_speed);
+        Serial.print("Pin A: "); Serial.print(*pin_a());
+        Serial.print(", pin B: "); Serial.print(*pin_b());
+        Serial.print(", speed dial pin: "); Serial.print(*pin_speed());
+        Serial.print(", enable pin: "); Serial.print(*pin_enable());
+        Serial.print(", motorControl is "); Serial.print(enabled ? "enabled" : "disabled");
+        Serial.print(" & speed is set to: "); Serial.println(current_speed);
     }
 
 private:

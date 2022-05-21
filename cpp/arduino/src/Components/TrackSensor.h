@@ -1,7 +1,7 @@
 #ifndef TRACKSENSOR_H
 #define TRACKSENSOR_H
 
-#include "ISensor.h"
+#include "Interfaces/ISensor.h"
 #include "vec2.h"
 #include <Arduino.h>
 
