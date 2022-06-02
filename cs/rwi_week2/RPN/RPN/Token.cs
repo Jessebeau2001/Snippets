@@ -7,8 +7,8 @@
         Signature Sign { get; init; }
     }
     
-    public readonly struct Token<T> : IToken
-    {
+    public readonly struct Token<T>: IToken
+    { 
         public Signature Sign { get; init; }
         public T Value { get; }
         

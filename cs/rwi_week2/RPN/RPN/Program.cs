@@ -8,7 +8,7 @@ namespace RPN
         {
             var calculator = new RpnCalculator();
             
-            const string test = "5 10 + 10 -";
+            const string test = "5 10 5 + -";
             var list = Parser.Parse(test);
 
             calculator.Calculate(list);

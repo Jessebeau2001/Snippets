@@ -1,23 +1,45 @@
-﻿namespace RPN;
+﻿using RPN.Interfaces;
 
-public class RpnCalculator
+namespace RPN;
+
+public class RpnCalculator : ICalculator
 {
-    private readonly Stack<IToken> _stack = new Stack<IToken>();
-    
-    public void Calculate(List<IToken> list)
+    private readonly Stack<IToken> _stack = new();
+    private readonly Stack<Token<string>> _backlog = new();
+
+    public IList<string> SupportedOperators { get; }
+    public IList<string> OperatorHelpText { get; }
+
+    public RpnCalculator()
     {
-        foreach (var token in list)
+        SupportedOperators = new List<string>();
+        OperatorHelpText = new List<string>();
+    }
+
+    public void Calculate(IEnumerable<IToken> list)
+    {
+        PopulateStack(list);
+
+        while (_stack.Count > 1)
         {
-            if (token.Sign == Signature.Number)
-                _stack.Push(token);
+            if (_stack.First().Sign == Signature.Operator)
+                _backlog.Push((Token<string>) _stack.Pop());
             else
-                ApplyOperator((Token<string>) token);
+                ApplyOperator(_backlog.Pop());
         }
 
         foreach (var item in _stack)
         {
             Console.WriteLine(item);
         }
+    }
+
+    private void PopulateStack(IEnumerable<IToken> list)
+    {
+        foreach (var item in list)
+            _stack.Push(item);
+        // Can also use constructor but prefer stack to be readonly
+        //      var stack = new Stack<IToken>(list);
     }
 
     private void ApplyOperator(Token<string> op)
@@ -35,19 +57,18 @@ public class RpnCalculator
     
     private void Sum()
     {
-        var result = 0;
-        while (_stack.Any())
-            result += ((Token<int>) _stack.Pop()).Value; // TODO: Look at aggregating a list cuz Stack is a list extension
-        
+        var result = PopType<int>().Value + PopType<int>().Value;
         _stack.Push(new Token<int>(result));
     }
 
     private void Subtract()
     {
-        var result = 0;
-        while (_stack.Any())
-            result -= ((Token<int>) _stack.Pop()).Value;
-        
+        var result = PopType<int>().Value - PopType<int>().Value;
         _stack.Push(new Token<int>(result));
+    }
+
+    private Token<T> PopType<T>()
+    {
+        return (Token<T>) _stack.Pop();
     }
 }
