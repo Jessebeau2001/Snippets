@@ -28,7 +28,7 @@ public:
         {
             Serial.print(lineFound(pins[i]) ? "| # " : "| . ");
         }
-        Serial.println("|");
+        Serial.print("| Angle: "); Serial.println(angle);
     }
 
     int getAngle()
@@ -91,7 +91,7 @@ public:
     using TrackSensor::TrackSensor;
 
 protected:
-    // Because of out beautiful code structure we only need to overload 1 method to make the whole thing rely on digital
+    // Because of our beautiful code structure we only need to overload 1 method to make the whole thing rely on digital
     bool lineFound(const byte & pin) const override
     {
         return !digitalRead(pin);

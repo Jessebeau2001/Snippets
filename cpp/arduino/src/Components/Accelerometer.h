@@ -32,7 +32,8 @@ struct vec3 : IPrintable
     }
 };
 
-class Accelerometer : ISensor, public IDelayable
+class
+Accelerometer : ISensor, public IDelayable
 {
 private:
     static const vec3 pos_offset; // NOLINT(bugprone-dynamic-static-initializers)
@@ -45,12 +46,22 @@ private:
 
     double pitch{};
     double roll{};
+    int8_t pitch_offset{};
 
 public:
     explicit Accelerometer(const int & address) : ISensor(0), address(address)
-    {
+    { }
 
+    Accelerometer(const int & address, const int8_t & pitch_offset) : Accelerometer(address)
+    {
+        this->pitch_offset = pitch_offset;
     }
+
+    Accelerometer(const int & address, const int8_t & pitch_offset, const short & sample_speed) : Accelerometer(address, pitch_offset)
+    {
+        interval = sample_speed;
+    }
+
 
     void init() override
     {
@@ -85,9 +96,16 @@ public:
         calcAngles();
     }
 
+    // Returns absolute true pitch
     const double & getPitch() const
     {
         return pitch;
+    }
+
+    // Returns pitch corrected with accelerometer offset
+    double getPitchAlt() const
+    {
+        return pitch - pitch_offset;
     }
 
     void printDebug() override

@@ -9,20 +9,21 @@
 
 class MotorController : IUpdatable, IInitializable, IPrintable
 {
-public: enum motorState { DRIVE, SLOW, STOP };
+public: enum motorState { DRIVE, TURN, CLIMB, STOP }; // TODO: Maybe descent
 private:
     MotorShield * shield;
-    PotMeter * pot;
     Accelerometer * meter;
 
-    uint8_t default_speed = 80;
-    uint8_t turn_speed = 50;
+    uint8_t drive_speed = 70;
+    uint8_t turn_speed = 60;
+    uint8_t climb_speed = 120;
 
-    motorState state = STOP;
-    uint8_t current_speed{};
+    motorState state = STOP;    // Default start state should be STOP
+//    uint8_t current_speed{};
+    uint8_t target_speed{};
 
 public:
-    MotorController(MotorShield * shield, PotMeter * speed_dial, Accelerometer * meter); // Const pointer, not pointer to const obj
+    MotorController(MotorShield * shield, Accelerometer * meter); // Const pointer, not pointer to const obj
 
     void init() override;
     void update() override;
@@ -31,6 +32,8 @@ public:
 
     const motorState & getState() const;
     const uint8_t & getTargetSpeed() const;
+
+    static int8_t calcClimbSpeed(const int8_t & speed_in, const int8_t & pitch);
 };
 
 #endif

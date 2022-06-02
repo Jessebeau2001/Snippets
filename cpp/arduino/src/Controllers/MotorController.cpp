@@ -1,11 +1,7 @@
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wunknown-pragmas"
-#pragma ide diagnostic ignored "cppcoreguidelines-narrowing-conversions"
-
 #include "MotorController.h"
 
-MotorController::MotorController(MotorShield * shield, PotMeter * speed_dial, Accelerometer * meter)
-    : shield(shield), pot(speed_dial), meter(meter)
+MotorController::MotorController(MotorShield * shield, Accelerometer * meter)
+    : shield(shield), meter(meter) // TODO: Rename meter
 {
     ::init();
 }
@@ -15,42 +11,41 @@ void MotorController::printDebug()
     Serial.println("Motor controller: ");
     Serial.println("> Motor shield: vvv");
     Serial.print("\t"); shield->printDebug();
-    Serial.println("> Potmeter: vvv");
-    Serial.print("\t"); pot->printDebug();
     Serial.print("Current target speed; ");
-    Serial.println(current_speed);
+    Serial.println(target_speed);
 }
 
 void MotorController::init()
-{
-    // TODO maybe these should be optional parameters for an initializer list
-    meter->setInterval(300);
-}
+{ }
 
 void MotorController::update()
 {
-    float mod;
-
     switch (state)
     {
         case DRIVE:
-            meter->update();    // TODO: This might cause problems
-            mod = 1 + (meter->getPitch() / 20);
-//            current_speed = pot->value(255) * mod;
-            current_speed = default_speed * mod;    // Temp for disabled pot
+            target_speed = drive_speed;
+            Serial.print("Driving with speed: "); Serial.print(target_speed);
             shield->driveForward();
             break;
-        case SLOW:
-            current_speed = turn_speed;
+        case TURN:
+            target_speed = turn_speed;
+            Serial.print("Turning with speed: "); Serial.print(target_speed);
+            shield->driveForward();
+            break;
+        case CLIMB:
+//            target_speed = calcClimbSpeed(climb_speed, meter->getPitchAlt());
+            target_speed = climb_speed * (1 + (meter->getPitchAlt() / 40));
+            Serial.print("Climbing with speed: "); Serial.print(target_speed);
             shield->driveForward();
             break;
         case STOP:
-            current_speed = 0;
+            target_speed = 0;
+            Serial.print("Car is stopped: "); Serial.print(target_speed);
             shield->brake();
             break;
     }
 
-    shield->setSpeed(current_speed);
+    shield->setSpeed(target_speed);
 }
 
 void MotorController::setState(const motorState & new_state)
@@ -65,7 +60,9 @@ const MotorController::motorState & MotorController::getState() const
 
 const uint8_t &MotorController::getTargetSpeed() const
 {
-    return current_speed;
+    return target_speed;
 }
 
-#pragma clang diagnostic pop
+int8_t MotorController::calcClimbSpeed(const int8_t & speed_in, const int8_t & pitch) {
+    return speed_in * (1 + (pitch / 40)); // TODO somehow this doesnt work
+}

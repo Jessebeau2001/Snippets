@@ -31,7 +31,7 @@ public:
     {
         angle_current = (int) ((float) angle_offset + (float) line_sensor->getAngle() * angle_modifier);
         if (line_sensor->getState() == TrackSensor::LOST) return; // Remember angle when going around corner
-        steer_wheel->write(angle_current);
+        steer_wheel->write(angle_current + 4);
     }
 
     void printDebug() override

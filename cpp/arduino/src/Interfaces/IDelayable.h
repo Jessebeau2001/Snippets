@@ -4,7 +4,7 @@
 #include <Arduino.h>
 
 class IDelayable {
-
+private:
     unsigned long last_time = millis();
 public:
     void setInterval(const short & new_interval) { this->interval = new_interval; }
