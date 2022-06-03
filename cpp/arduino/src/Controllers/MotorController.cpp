@@ -24,23 +24,26 @@ void MotorController::update()
     {
         case DRIVE:
             target_speed = drive_speed;
-            Serial.print("Driving with speed: "); Serial.print(target_speed);
+//            Serial.print("Driving with speed: "); Serial.print(target_speed);
             shield->driveForward();
             break;
         case TURN:
             target_speed = turn_speed;
-            Serial.print("Turning with speed: "); Serial.print(target_speed);
+//            Serial.print("Turning with speed: "); Serial.print(target_speed);
             shield->driveForward();
             break;
         case CLIMB:
-//            target_speed = calcClimbSpeed(climb_speed, meter->getPitchAlt());
             target_speed = climb_speed * (1 + (meter->getPitchAlt() / 40));
-            Serial.print("Climbing with speed: "); Serial.print(target_speed);
+//            Serial.print("Climbing with speed: "); Serial.print(target_speed);
+            target_speed = drive_speed; // This line disables climb state
             shield->driveForward();
             break;
         case STOP:
+            target_speed = 60;
+            shield->reverse();
+            delay(200);     // Todo: maybe decrease
             target_speed = 0;
-            Serial.print("Car is stopped: "); Serial.print(target_speed);
+//            Serial.print("Car is stopped: "); Serial.print(target_speed);
             shield->brake();
             break;
     }

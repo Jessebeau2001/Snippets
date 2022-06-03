@@ -36,6 +36,12 @@ public:
         digitalWrite(*pin_b(), LOW);
     }
 
+    void reverse()
+    {
+        digitalWrite(*pin_a(), HIGH);
+        digitalWrite(*pin_b(), LOW);
+    }
+
     void setSpeed(const int & new_speed)
     {
         current_speed = new_speed;

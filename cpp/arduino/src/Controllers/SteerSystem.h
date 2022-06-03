@@ -13,9 +13,9 @@ private:
 
     int servo_pin;
 
-    float angle_modifier = 1.4f;    // Steer intensity, mods the steer angle returned from TrackSensor.
+    float angle_modifier = 1.2f;    // Steer intensity, mods the steer angle returned from TrackSensor. // OLD WAS 1.4f
     int angle_current = 0;          // Value representing current servo angle.
-    int angle_offset = 90;          // Value where servo is centered.
+    int angle_offset = 93;          // Value where servo is centered.
 
 public:
     SteerSystem(TrackSensor * sensor, Servo * steer, const int & servo_pin)
@@ -31,7 +31,7 @@ public:
     {
         angle_current = (int) ((float) angle_offset + (float) line_sensor->getAngle() * angle_modifier);
         if (line_sensor->getState() == TrackSensor::LOST) return; // Remember angle when going around corner
-        steer_wheel->write(angle_current + 4);
+        steer_wheel->write(angle_current);
     }
 
     void printDebug() override

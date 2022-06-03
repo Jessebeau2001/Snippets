@@ -14,11 +14,11 @@ private:
     MotorShield * shield;
     Accelerometer * meter;
 
-    uint8_t drive_speed = 70;
-    uint8_t turn_speed = 60;
+    uint8_t drive_speed = 50;
+    uint8_t turn_speed = 55;
     uint8_t climb_speed = 120;
 
-    motorState state = STOP;    // Default start state should be STOP
+    motorState state = STOP;    // Default start state should be ALL
 //    uint8_t current_speed{};
     uint8_t target_speed{};
 

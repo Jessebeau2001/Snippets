@@ -37,7 +37,7 @@ public:
         return angle;
     }
 
-    enum Line { LEFT, MIDDLE, RIGHT, LOST };
+    enum Line { LEFT, MIDDLE, RIGHT, LOST, ALL };
 
     const Line & getState() const
     {
@@ -56,9 +56,14 @@ protected:
     void update() override
     {
         vector.zero();
+        int all_on = 0;
         for (int i = 0; i < pin_count; i++)
         {
-            if (lineFound(pins[i])) vector += vec2(i - center_pin_pos, 5); // NOLINT(cppcoreguidelines-narrowing-conversions)
+            if (lineFound(pins[i]))
+            {
+                vector += vec2(i - center_pin_pos, 5); // NOLINT(cppcoreguidelines-narrowing-conversions)
+                all_on++; // TODO: This is dog shit
+            }
         }
 
         if (vector.isZero())
@@ -76,6 +81,11 @@ protected:
             else state = RIGHT;
         }
         else state = MIDDLE;
+
+        if (all_on == pin_count)
+        {
+            state = ALL;
+        }
     }
 
     // Pin IS pin, not index

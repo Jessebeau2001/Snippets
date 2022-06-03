@@ -12,6 +12,7 @@ public:
          memcpy(this->pins, pins, pin_count);
     }
 
+    // Explicit constructor for components with 1 pin
     explicit IComponent(const byte & pin) : IComponent(1)
     {
         pins[0] = pin;
