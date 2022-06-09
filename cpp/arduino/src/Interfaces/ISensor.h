@@ -2,30 +2,25 @@
 #define ISENSOR_H
 
 #include <Arduino.h>
-#include "IComponent.h"
+#include "Interfaces/IComponent.h"
 
-//template <typename T> // Maybe this eventually
-class ISensor : public IComponent
+class ISensor : public IComponent, IUpdatable
 {
 public:
     ISensor(const int & pin_count, const byte * pins) : IComponent(pin_count, pins)
     {
-        init();
+        ::init();
     }
 
     void printDebug() override
     {
-        Serial.print("(Sensor with pins: [");
-        Serial.print(pins[0]);
-        for (int i = 1; i < pin_count; i++)
-        {
-            Serial.print(", ");
-            Serial.print(pins[i]);
-        }
-        Serial.println("])");
+        Serial.print("(Sensor");
+        IComponent::printDebug();
     }
 
 protected:
+    using IComponent::IComponent; // Grant accesses to single argument constructor for overlaying classes
+
     void init() override
     {
         Serial.println("Setting up Sensor");
@@ -34,8 +29,6 @@ protected:
             pinMode(pins[i], INPUT);
         }
     }
-
-    virtual void update() = 0;
 };
 
 #endif

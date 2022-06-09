@@ -6,11 +6,12 @@ namespace RPN
     {
         private static void Main()
         {
-            var list = new List<IToken>
-            {
-                new Token<char>('+'),
-                new Token<int>(12)
-            };
+            var calculator = new RpnCalculator();
+            
+            const string test = "5 10 5 + -";
+            var list = Parser.Parse(test);
+
+            calculator.Calculate(list);
         }
     }
 }

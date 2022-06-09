@@ -24,6 +24,10 @@ float vec2::angle(const vec2 & other) const
     return acos(this->dot(other)) * (180 / M_PI);
 }
 
+bool vec2::isZero() const {
+    return x == 0 && y == 0;
+}
+
 void vec2::normalize()
 {
     auto l = length();
@@ -48,4 +52,3 @@ vec2 & vec2::operator+= (const vec2 & other)
     this->y += other.y;
     return * this;
 }
-
