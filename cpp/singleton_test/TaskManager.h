@@ -32,6 +32,57 @@ public:
     }
 };
 
+template <class T>
+class DynamicArray
+{
+private:
+    int count = 0;
+    int size = 0;
+
+    T * array;
+
+    void expand()
+    {
+        size++;
+        array = (T*) realloc(array, sizeof(T) * size);
+    }
+
+public:    
+    DynamicArray(const int size = 0) : size(size)
+    {
+        array = (T*) malloc(sizeof(T) * size);
+    }
+
+    ~DynamicArray()
+    {
+        free(array);
+    }
+
+    inline const int & getCount() const { return count; }   // Element count
+    inline const int & getSize() const { return size; }     // Actual array size
+
+    void append(T obj)
+    {
+        if (count + 1 > size) expand();
+        array[count] = obj;
+        count++;
+    }
+
+    void shrinkFit()
+    {
+        size = count;
+        array = (T*) realloc(array, sizeof(T) * size);
+    }
+
+    T & operator[] (int index)
+    {
+        if(index >= count)
+            throw std::range_error("Array index out of bounds");
+
+        return array[index];
+    }
+};
+
 class TaskManager
 {
 private:
