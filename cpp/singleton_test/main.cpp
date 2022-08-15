@@ -5,6 +5,11 @@
 
 using std::cout;
 
+struct intLimit
+{
+    int value;
+};
+
 int main()
 {
     FooTask foo_task = FooTask();
