@@ -1,7 +1,3 @@
-//
-// Created by dza02 on 9/5/2021.
-//
-
 #include "logger.h"
 #include "program.h"
 #include <memory>
@@ -15,9 +11,18 @@ namespace {
     }();
 }
 
+/*
+    Name: Jesse Visscher
+    Std. Nr.: 477473
+    Class: ETI2V.B
+*/
+
 int main(){
-    auto out = std::make_unique<writers::stream_writer>("my_file.txt");
-    auto log = std::make_unique<lib::logger>(std::move(out));
+    auto out = std::make_unique<writers::stream_writer>("my_file.txt"); // Init the writer
+    auto log = std::make_unique<lib::logger>(std::move(out));                   // Init the logger
+    // Setting time source not necessary because this already happens in the default and out stream constructor
+    // However it is possible to change the time source by calling logger::set_time_src(src)
+
     program prog{ std::move(log) };
     prog.run();
 }

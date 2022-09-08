@@ -7,9 +7,11 @@
 #include "system_time_source.h"
 
 namespace lib {
-    logger::logger() : m_writer_(std::make_unique<console_writer>()) {}
+    logger::logger()
+        : m_writer_(std::make_unique<console_writer>()), t_src_(std::make_unique<system_time_source>()) { }
 
-    logger::logger(std::unique_ptr<writers::itext_writer> out) : m_writer_(std::move(out)) {}
+    logger::logger(std::unique_ptr<writers::itext_writer> out)
+        : m_writer_(std::move(out)), t_src_(std::make_unique<system_time_source>()) { }
 
     void logger::log(const std::string_view & msg) const
     {
@@ -26,7 +28,6 @@ namespace lib {
     {
         t_src_ = std::move(source);
     }
-
-    std::unique_ptr<itime_source> logger::t_src_ = std::make_unique<system_time_source>();
+    
     // TODO: Q? Example used std::move, I like this, is that OK?
 }
