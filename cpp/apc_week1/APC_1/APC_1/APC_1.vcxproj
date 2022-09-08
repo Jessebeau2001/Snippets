@@ -159,6 +159,7 @@
     <ClCompile Include="logger.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="program.cpp" />
+    <ClCompile Include="stream_writer.cpp" />
     <ClCompile Include="system_time_source.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -168,6 +169,7 @@
     <ClInclude Include="itime_source.h" />
     <ClInclude Include="logger.h" />
     <ClInclude Include="program.h" />
+    <ClInclude Include="stream_writer.h" />
     <ClInclude Include="system_time_source.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -4,9 +4,9 @@
 
 #include "logger.h"
 #include "program.h"
-#include <iostream>
 #include <memory>
-#include "system_time_source.h"
+
+#include "stream_writer.h"
 
 namespace {
     [[maybe_unused]] auto _ = [] () noexcept {
@@ -16,7 +16,8 @@ namespace {
 }
 
 int main(){
-    auto log = std::make_unique<lib::logger>( );
+    auto out = std::make_unique<writers::stream_writer>("my_file.txt");
+    auto log = std::make_unique<lib::logger>(std::move(out));
     program prog{ std::move(log) };
     prog.run();
 }

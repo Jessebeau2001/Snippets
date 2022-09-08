@@ -9,7 +9,7 @@
 namespace lib {
     logger::logger() : m_writer_(std::make_unique<console_writer>()) {}
 
-    logger::logger(std::unique_ptr<itext_writer> out) : m_writer_(std::move(out)) {}
+    logger::logger(std::unique_ptr<writers::itext_writer> out) : m_writer_(std::move(out)) {}
 
     void logger::log(const std::string_view & msg) const
     {

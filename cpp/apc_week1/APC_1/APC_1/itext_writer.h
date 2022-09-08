@@ -1,7 +1,7 @@
 ﻿#pragma once
 #include <string_view>
 
-namespace lib
+namespace writers
 {
     struct itext_writer
     {
