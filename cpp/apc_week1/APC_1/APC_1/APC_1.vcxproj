@@ -109,6 +109,7 @@
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -154,13 +155,16 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="console_writer.cpp" />
     <ClCompile Include="logger.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="program.cpp" />
     <ClCompile Include="system_time_source.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="console_writer.h" />
     <ClInclude Include="ilogger.h" />
+    <ClInclude Include="itext_writer.h" />
     <ClInclude Include="itime_source.h" />
     <ClInclude Include="logger.h" />
     <ClInclude Include="program.h" />
