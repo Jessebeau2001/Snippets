@@ -3,11 +3,11 @@ description: Just testing some stuff with DIM preferred rolls.
 
 
 // Peacebond (MKB, PVE)
-//notes: Some cool Peacebond perk combo's. Recommended MW - Range/Handling|tags:mkb,pvp
+// notes: Some cool Peacebond perk combo's. Recommended MW - Range/Handling|tags:mkb,pvp
 dimwishlist:item=829330711&perks=202670084,3142289711,2846385770,4082225868
 
 // 1000 Yard Stare (MKB, PVE)
-//notes:Sniper with Triple tap and the new Tricon perk
+// notes:Sniper with Triple tap and the new Tricon perk
 dimwishlist:item=4164201232&perks=1840239774,1087426260,3400784728,2610012052#notes:extra dim text
 
 // Retraced Path (PVE Trace Rifle)
@@ -15,6 +15,15 @@ dimwishlist:item=4164201232&perks=1840239774,1087426260,3400784728,2610012052#no
 dimwishlist:item=548958835&perks=839105230,2680121939,3700496672,2610012052
 
 // Lingering Dread (PVE Breachload Grenade Launcher)
-//notes: The chill clip roll
+// notes: The chill clip roll
 dimwishlist:item=2026087437&perks=3525010810,3301904089,2010801679,2978966579
 dimwishlist:item=2026087437&perks=981914802,3301904089,2010801679,2978966579
+
+// Lunulata-4b (MKB, PVE)
+// notes: Its a stasis bow with headstone
+dimwishlist:item=2513965917&perks=,3700496672,124408337
+
+// Test with Vouchsafe (MKB, PVE)
+// notes: Its a test
+dimwishlist:item=3242168339&perks=3250034553,1087426260,1645158859,699525795
+dimwishlist:item=3242168339&perks=,1354429876,3038247973
