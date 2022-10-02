@@ -3,7 +3,7 @@ description: Just testing some stuff with DIM preferred rolls.
 
 
 // Peacebond (MKB, PVE)
-//notes: Some cool Peacebond perk combo's. Recommended MW - Range/Handling|tags:mkb,pvp
+//notes: Some cool Peacebond perk combo's. Recommended MW - Range/Handling | tags: pvp
 dimwishlist:item=829330711&perks=202670084,3142289711,2846385770,4082225868
 
 // 1000 Yard Stare (MKB, PVE)
